@@ -1,11 +1,16 @@
+// avant
+//      origin: ['http://localhost:5173'],
+//      headers: ['Content-Type', 'Authorization'],
+
 module.exports = [
   'strapi::errors',
   'strapi::security',
   {
     name: 'strapi::cors',
     config: {
-      origin: ['http://localhost:5173'],
-      headers: ['Content-Type', 'Authorization'],
+      enabled: true,
+      headers: '*',
+      origin: ['*'], // Permet toutes les origines pour le moment. À restreindre en production !
     },
   },
   'strapi::poweredBy',
