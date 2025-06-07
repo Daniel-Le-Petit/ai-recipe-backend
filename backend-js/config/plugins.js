@@ -1,9 +1,7 @@
-export default ({ env }) => ({
-  // Exemple config pour un plugin
-  upload: {
-    provider: 'local',
-    providerOptions: {
-      sizeLimit: 1000000,
+module.exports = ({ env }) => ({
+  'users-permissions': {
+    config: {
+      jwtSecret: env('44cms+VepNmFuywrk4yvT7Pe60hiM0FUswSQ42S4XAw='),
     },
   },
 });
