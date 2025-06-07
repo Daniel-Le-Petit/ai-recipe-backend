@@ -1,7 +1,3 @@
-// avant
-//      origin: ['http://localhost:5173'],
-//      headers: ['Content-Type', 'Authorization'],
-
 module.exports = [
   'strapi::errors',
   'strapi::security',
