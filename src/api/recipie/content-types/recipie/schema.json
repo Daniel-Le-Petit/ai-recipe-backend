@@ -1,0 +1,45 @@
+{
+  "kind": "collectionType",
+  "collectionName": "recipies",
+  "info": {
+    "singularName": "recipie",
+    "pluralName": "recipies",
+    "displayName": "recipie"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "blocks"
+    },
+    "ingredients": {
+      "type": "json"
+    },
+    "preparation_time": {
+      "type": "integer"
+    },
+    "difficulty": {
+      "type": "enumeration",
+      "enum": [
+        "Easy",
+        "Medium",
+        "Hard"
+      ]
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    }
+  }
+}
