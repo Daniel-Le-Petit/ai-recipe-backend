@@ -1,17 +1,20 @@
-const path = require('path');
-
+// ./config/database.js
 module.exports = ({ env }) => ({
   connection: {
-    client: 'postgres', // Or 'sqlite' etc., based on your client
-    connection: env('DATABASE_URL'), // Use the DATABASE_URL directly
-    useNullAsDefault: true, // Common for SQLite, but might be needed for others
-    ssl: env.bool('DATABASE_SSL', false) && {
-          rejectUnauthorized: env.bool('DATABASE_SSL_REJECT_UNAUTHORIZED', true),
+    client: 'postgres',
+    connection: {
+      host: env('DATABASE_HOST', 'localhost'),
+      port: env.int('DATABASE_PORT', 5432),
+      database: env('DATABASE_NAME', 'strapi'),
+      user: env('DATABASE_USERNAME', 'strapi'),
+      password: env('DATABASE_PASSWORD', 'strapi'),
+      ssl: env.bool('DATABASE_SSL', false)
+        ? { rejectUnauthorized: env.bool('DATABASE_SSL_REJECT_UNAUTHORIZED', false) }
+        : false,
     },
     pool: {
       min: 0,
       max: 10,
     },
-    debug: false,
   },
 });
