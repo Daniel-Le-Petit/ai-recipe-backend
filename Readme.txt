@@ -14,6 +14,18 @@ frontend/src/App.jsx
 config/middlewares.js
 config/server.js
 
+GitHub
+-------
+Local :
+------
+C:\Users\AIFinesHerbes\AIFB\backend-js  ← ai-recipe-backend (Git repo avec remote ai-recipe-backend)
+C:\Users\AIFinesHerbes\AIFB\frontend    ← ai-recipe-frontend (Git repo avec remote ai-recipe-frontend)
+GitHub :
+
+https://github.com/Daniel-Le-Petit/ai-recipe-backend
+https://github.com/Daniel-Le-Petit/ai-recipe-frontend
+
+Your database will expire on July 9, 2025. The database will be deleted unless you upgrade to a paid instance type.
 dans database.js
 ---------------
       host: env('DATABASE_HOST', 'localhost'),
@@ -37,6 +49,13 @@ dans .env
 
 Render
 ------
+	Hostname	dpg-d13af43uibrs7380cfl0-a
+	Port		5432
+	Database 	aifb_a2h0
+	Username	aifb
+	Password	YD73qk3D1tRwEwNGcn6L3hXyEHxex00a
+
+// avant
 	https://dashboard.render.com/d/dpg-d11ivqs9c44c73fctus0-a
 	dlepetit@hotmail.fr
 	Oriane64?!
@@ -44,11 +63,12 @@ Render
 	$env:DB_PORT = "5432" # Généralement 5432 pour PostgreSQL
 	$env:DB_USER = "aifb"
 	$env:DB_NAME = "aifb"
+	// pas besoin d'avoir PGPASSWORD dans les variables d'environnement de Render pour Strapi
 	$env:PGPASSWORD = postgresql://aifb:3hY10AHiJtmltVXRSQ3EKTJv0AC5bJQv@dpg-d11ivqs9c44c73fctus0-a/aifb
 	Internal Database URL = postgresql://aifb:3hY10AHiJtmltVXRSQ3EKTJv0AC5bJQv@dpg-d11ivqs9c44c73fctus0-a/aifb
-	External Database URL = postgresql://aifb:3hY10AHiJtmltVXRSQ3EKTJv0AC5bJQv@dpg-d11ivqs9c44c73fctus0-a.frankfurt-postgres.render.com/aifb
+	External Database URL = postgresql://aifb:3hY10AHiJtmltVXRSQ3EKTJv0AC5bJQv@dpg-d11ivqs9c44c73fctus0-a.frankfurt-postgres.render.com/aifb	
 	PSQL Command = PGPASSWORD=3hY10AHiJtmltVXRSQ3EKTJv0AC5bJQv psql -h dpg-d11ivqs9c44c73fctus0-a.frankfurt-postgres.render.com -U aifb aifb
-
+//
 
 npm:  signifie Node package manager
 ---
@@ -60,10 +80,7 @@ npm run build : Construit votre application pour la production (frontend Vite ou
 npm run start / npm start : Démarre votre backend Strapi en mode production.
 npm cache clean --force : Vide le cache de npm
 
-GitHub
--------
-	https://github.com/Daniel-Le-Petit/ai-recipe-frontend
-	https://github.com/Daniel-Le-Petit/ai-recipe-backend
+
 
 Keys
 ----
