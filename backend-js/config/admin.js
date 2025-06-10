@@ -1,17 +1,15 @@
-// module.exports = ({ env }) => ({
-//   apiToken: {
-//     salt: env('API_TOKEN_SALT', 'defaultSalt'),
-//   },
-//   auth: {
-//     secret: env('ADMIN_JWT_SECRET', 'jevaisallapeche'),
-//   },
-// });
-
-
-// C:\Users\AIFinesHerbes\AIFB\backend-js\config\admin.js
-
 module.exports = ({ env }) => ({
   auth: {
-    secret: env('ADMIN_JWT_SECRET', 'defaultSecret'),
+    secret: env('ADMIN_JWT_SECRET'),
   },
+  apiToken: {
+    salt: env('API_TOKEN_SALT'),
+  },
+  transfer: {
+    token: {
+      salt: env('TRANSFER_TOKEN_SALT'),
+    },
+  },
+  // Pour le développement local, l'admin doit pointer vers l'URL locale de Strapi
+  url: env('STRAPI_ADMIN_BACKEND_URL', 'http://localhost:1338'), // Définit l'URL pour l'admin
 });

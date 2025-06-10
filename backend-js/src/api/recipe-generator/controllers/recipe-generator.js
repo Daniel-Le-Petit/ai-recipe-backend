@@ -1,88 +1,181 @@
 'use strict';
 
-const { OpenAI } = require('openai');
-
-let openai;
-
-// Cette condition est la clé : 'openai' ne sera initialisé que si MOCK_OPENAI_API n'est PAS 'true'
-if (process.env.MOCK_OPENAI_API !== 'true') {
-  console.log("Using Real OpenAI Client for recipe generation.");
-  openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-  });
-} else {
-  console.log("MOCK_OPENAI_API is 'true'. Real OpenAI client will not be initialized.");
-}
-
+/**
+ * recipe-generator controller
+ */
 
 module.exports = {
   async generate(ctx) {
-    const { ingredients } = ctx.request.body;
+    const {
+      cuisineType,
+      numPeople,
+      maxDuration,
+      difficulty,
+      ingredients, // Tableau d'ingrédients ou chaîne de caractères
+      maxIngredients,
+      recipeGoal,
+      robotCompatible,
+      actionType // Nouveau: 'generateAI' ou 'searchExisting'
+    } = ctx.request.body;
 
-    if (!ingredients || !Array.isArray(ingredients) || ingredients.length === 0) {
-      return ctx.badRequest('Ingredients must be an array of strings.');
-    }
-
-    // --- DÉBUT DE LA LOGIQUE DE SIMULATION (MOCK) ---
-    // Cette section sera exécutée si MOCK_OPENAI_API est 'true'
-    if (process.env.MOCK_OPENAI_API === 'true') { // <--- C'EST CETTE CONDITION QUI VA SE DÉCLENCHER SUR RENDER
-      console.log('Mode MOCK API OpenAI activé. Pas d\'appel réel à OpenAI.');
-      const mockRecipe = {
-        title: "Recette Mockée - Poulet Brocoli Express",
-        description: "Une délicieuse recette générée pour le développement, sans coût OpenAI !",
+    // --- Liste de recettes du domaine public (exemples) ---
+    // Ces recettes peuvent être stockées dans une collection Strapi à l'avenir.
+    const publicDomainRecipes = [
+      {
+        id: 1,
+        title: "Salade Composée Fraîcheur (Végétarien, Facile)",
+        duration: "15 minutes",
         ingredients: [
-          "200g de poulet (simulé)",
-          "1 tête de brocoli (simulé)",
-          "Sauce soja (simulée)",
-          "Gingembre (simulé)",
-          "Un peu d'imagination (indispensable)"
+          { name: "Laitue", quantity: "1 tête" },
+          { name: "Tomates cerises", quantity: "250g" },
+          { name: "Concombre", quantity: "1" },
+          { name: "Feta", quantity: "100g" },
+          { name: "Olives noires", quantity: "50g" },
+          { name: "Huile d'olive", quantity: "2 c. à soupe" },
+          { name: "Vinaigre balsamique", quantity: "1 c. à soupe" },
+          { name: "Sel, poivre", quantity: "au goût" },
         ],
-        instructions: [
-          "Étape 1: Mettez tous les ingrédients simulés dans une poêle imaginaire.",
-          "Étape 2: Remuez avec enthousiasme pendant quelques minutes.",
-          "Étape 3: Servez chaud et dégustez votre plat de développement !"
-        ]
-      };
-      await new Promise(resolve => setTimeout(resolve, 500));
-      return ctx.body = { recipe: mockRecipe };
-    }
-    // --- FIN DE LA LOGIQUE DE SIMULATION (MOCK) ---
-
-    // --- LOGIQUE RÉELLE DE L'API OpenAI (ne s'exécutera PAS si MOCK_OPENAI_API est 'true') ---
-    if (!openai) { // Sécurité, mais ne devrait pas être atteinte si MOCK_OPENAI_API est 'true'
-        console.error("Erreur: Le client OpenAI n'a pas été initialisé et le mode mock est désactivé.");
-        return ctx.internalServerError('OpenAI client not initialized. Check MOCK_OPENAI_API env var.');
-    }
-
-    const model = 'gpt-3.5-turbo';
-    const prompt = `Generate a unique and delicious recipe with the following ingredients: ${ingredients.join(', ')}.
-    The recipe should include:
-    1. A catchy title.
-    2. A brief description (1-2 sentences).
-    3. A list of all ingredients (including common pantry staples like salt, pepper, oil if needed).
-    4. Step-by-step instructions.
-    Format the output as a JSON object with keys: title, description, ingredients (array of strings), and instructions (array of strings).`;
-
-    try {
-      const completion = await openai.chat.completions.create({
-        model: model,
-        messages: [{ role: 'user', content: prompt }],
-        response_format: { type: "json_object" },
-      });
-
-      const generatedContent = completion.choices[0].message.content;
-      const parsedRecipe = JSON.parse(generatedContent);
-
-      ctx.body = { recipe: parsedRecipe };
-
-    } catch (error) {
-      console.error('Error generating recipe:', error);
-      if (error.response) {
-        console.error('OpenAI API error response:', error.response.data);
-        return ctx.internalServerError('Error from OpenAI API.', { details: error.response.data });
-      } else {
-        return ctx.internalServerError('Failed to generate recipe.', { details: error.message });
+        steps: [
+          "Laver et couper la laitue, les tomates et le concombre.",
+          "Émietter la feta et couper les olives en rondelles.",
+          "Mélanger tous les ingrédients dans un grand saladier.",
+          "Préparer la vinaigrette avec l'huile, le vinaigre, le sel et le poivre. Verser sur la salade et servir frais."
+        ],
+        cuisineType: "Méditerranéenne",
+        numPeople: 2,
+        maxDuration: 20,
+        difficulty: "Facile",
+        robotCompatible: false,
+        source: "Domaine Public"
+      },
+      {
+        id: 2,
+        title: "Pâtes au Pesto et Poulet Grillé (Facile)",
+        duration: "25 minutes",
+        ingredients: [
+          { name: "Pâtes (type penne)", quantity: "200g" },
+          { name: "Blanc de poulet", quantity: "200g" },
+          { name: "Pesto", quantity: "4 c. à soupe" },
+          { name: "Tomates séchées", quantity: "50g" },
+          { name: "Parmesan râpé", quantity: "2 c. à soupe" },
+          { name: "Huile d'olive", quantity: "1 c. à soupe" },
+          { name: "Sel, poivre", quantity: "au goût" },
+        ],
+        steps: [
+          "Faire cuire les pâtes selon les instructions du paquet.",
+          "Pendant ce temps, couper le poulet en dés et le faire griller à la poêle avec un filet d'huile d'olive jusqu'à ce qu'il soit doré.",
+          "Égoutter les pâtes. Dans un grand saladier, mélanger les pâtes chaudes avec le pesto, le poulet grillé et les tomates séchées coupées en morceaux.",
+          "Servir chaud, saupoudré de parmesan râpé."
+        ],
+        cuisineType: "Italienne",
+        numPeople: 2,
+        maxDuration: 30,
+        difficulty: "Facile",
+        robotCompatible: false,
+        source: "Domaine Public"
+      },
+      {
+        id: 3,
+        title: "Curry Végétarien aux Lentilles Corail (Moyen, Rapide)",
+        duration: "35 minutes",
+        ingredients: [
+          { name: "Lentilles corail", quantity: "150g" },
+          { name: "Lait de coco", quantity: "400ml" },
+          { name: "Oignon", quantity: "1" },
+          { name: "Gousses d'ail", quantity: "2" },
+          { name: "Gingembre frais", quantity: "1 morceau (2cm)" },
+          { name: "Pâte de curry rouge", quantity: "1 c. à soupe" },
+          { name: "Épinards frais", quantity: "200g" },
+          { name: "Huile végétale", quantity: "1 c. à soupe" },
+          { name: "Riz Basmati", quantity: "150g" }
+        ],
+        steps: [
+          "Rincer les lentilles corail. Hacher l'oignon, l'ail et le gingembre.",
+          "Dans une casserole, faire chauffer l'huile. Faire revenir l'oignon, l'ail et le gingembre hachés pendant 2 minutes.",
+          "Ajouter la pâte de curry et cuire 1 minute en remuant.",
+          "Ajouter les lentilles corail, le lait de coco et 200ml d'eau. Porter à ébullition, puis réduire le feu et laisser mijoter 15-20 minutes, jusqu'à ce que les lentilles soient tendres.",
+          "Ajouter les épinards en fin de cuisson et remuer jusqu'à ce qu'ils soient flétris.",
+          "Pendant ce temps, cuire le riz Basmati selon les instructions du paquet. Servir le curry avec le riz."
+        ],
+        cuisineType: "Asiatique",
+        numPeople: 3,
+        maxDuration: 40,
+        difficulty: "Moyen",
+        robotCompatible: false,
+        source: "Domaine Public"
+      },
+      {
+        id: 4,
+        title: "Omelette aux Fines Herbes (Simple)",
+        duration: "10 minutes",
+        ingredients: [
+          { name: "Oeufs", quantity: "3" },
+          { name: "Lait", quantity: "1 c. à soupe" },
+          { name: "Fines herbes (persil, ciboulette)", quantity: "1 c. à café hachées" },
+          { name: "Beurre", quantity: "1 noix" },
+          { name: "Sel, poivre", quantity: "au goût" },
+        ],
+        steps: [
+          "Casser les œufs dans un bol, ajouter le lait, le sel, le poivre et les fines herbes. Battre énergiquement.",
+          "Faire fondre le beurre dans une poêle à feu moyen.",
+          "Verser le mélange d'œufs dans la poêle chaude. Laisser prendre les bords, puis ramener la partie cuite vers le centre.",
+          "Quand l'omelette est baveuse ou cuite à votre goût, plier en deux et servir immédiatement."
+        ],
+        cuisineType: "Française",
+        numPeople: 1,
+        maxDuration: 15,
+        difficulty: "Facile",
+        robotCompatible: false,
+        source: "Domaine Public"
       }
+      // Vous pouvez ajouter d'autres recettes ici
+    ];
+
+    let selectedRecipe = null;
+
+    if (actionType === 'searchExisting') {
+      // --- LOGIQUE DE RECHERCHE DE RECETTES EXISTANTES PAR INGRÉDIENTS ---
+      if (ingredients && ingredients.length > 0) {
+        const requestedIngredientsLower = ingredients.map(i => i.toLowerCase());
+        
+        // Recherche une recette qui contient au moins UN des ingrédients demandés
+        selectedRecipe = publicDomainRecipes.find(recipe => 
+          recipe.ingredients.some(recipeIng => 
+            requestedIngredientsLower.some(reqIng => recipeIng.name.toLowerCase().includes(reqIng))
+          )
+        );
+
+        // Si aucune correspondance directe par ingrédient, peut fallback sur la cuisine ou difficulté si spécifié
+        if (!selectedRecipe) {
+          if (cuisineType && publicDomainRecipes.find(r => r.cuisineType.toLowerCase() === cuisineType.toLowerCase())) {
+            selectedRecipe = publicDomainRecipes.find(r => r.cuisineType.toLowerCase() === cuisineType.toLowerCase());
+          } else if (difficulty && publicDomainRecipes.find(r => r.difficulty.toLowerCase() === difficulty.toLowerCase())) {
+            selectedRecipe = publicDomainRecipes.find(r => r.difficulty.toLowerCase() === difficulty.toLowerCase());
+          }
+        }
+
+      } else {
+        // Si aucun ingrédient n'est fourni pour la recherche, renvoyer une erreur ou une recette aléatoire
+        ctx.badRequest('Veuillez fournir des ingrédients pour la recherche.');
+        return;
+      }
+    } else { // actionType est 'generateAI' ou non spécifié (comportement par défaut)
+      // --- LOGIQUE DE GÉNÉRATION IA (MOCKÉE POUR L'INSTANT) ---
+      // Renvoie une recette aléatoire parmi les exemples de domaine public pour simuler la génération IA
+      selectedRecipe = publicDomainRecipes[Math.floor(Math.random() * publicDomainRecipes.length)];
+    }
+
+    if (selectedRecipe) {
+      // Simuler l'ajout de propriétés comme 'aiTested' et 'robotCompatible'
+      // Ces valeurs devraient idéalement être dans la base de données Strapi pour chaque recette
+      selectedRecipe.aiTested = true; // Simule que ces recettes "pré-générées" sont validées
+      selectedRecipe.robotCompatible = Math.random() > 0.5; // Simule la compatibilité robot
+      
+      return { recipe: selectedRecipe };
+    } else {
+      // Si aucune recette n'est trouvée (même pas les exemples), renvoyer une erreur
+      ctx.badRequest('Aucune recette trouvée correspondant à vos critères.');
+      return;
     }
   },
 };
