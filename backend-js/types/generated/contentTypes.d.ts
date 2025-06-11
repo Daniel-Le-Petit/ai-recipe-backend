@@ -384,12 +384,13 @@ export interface ApiRecipieRecipie extends Struct.CollectionTypeSchema {
     draftAndPublish: false;
   };
   attributes: {
+    aiTested: Schema.Attribute.Boolean;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    description: Schema.Attribute.Blocks;
-    difficulty: Schema.Attribute.Enumeration<['Easy', 'Medium', 'Hard']>;
-    image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    difficulty: Schema.Attribute.String;
+    duration: Schema.Attribute.String;
+    imageUrl: Schema.Attribute.String;
     ingredients: Schema.Attribute.JSON;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -397,8 +398,11 @@ export interface ApiRecipieRecipie extends Struct.CollectionTypeSchema {
       'api::recipie.recipie'
     > &
       Schema.Attribute.Private;
-    preparation_time: Schema.Attribute.Integer;
+    maxDuration: Schema.Attribute.Integer;
+    numPeople: Schema.Attribute.Integer;
     publishedAt: Schema.Attribute.DateTime;
+    robotCompatible: Schema.Attribute.Boolean;
+    steps: Schema.Attribute.JSON;
     title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &

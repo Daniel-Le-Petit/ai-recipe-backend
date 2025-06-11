@@ -6,176 +6,146 @@
 
 module.exports = {
   async generate(ctx) {
+    // Récupération des préférences envoyées par le frontend
     const {
       cuisineType,
       numPeople,
       maxDuration,
       difficulty,
-      ingredients, // Tableau d'ingrédients ou chaîne de caractères
+      ingredients, // Reçu du frontend, peut être une chaîne "tomate, oignon"
       maxIngredients,
       recipeGoal,
       robotCompatible,
-      actionType // Nouveau: 'generateAI' ou 'searchExisting'
+      actionType // 'generateAI' ou 'searchExisting'
     } = ctx.request.body;
-
-    // --- Liste de recettes du domaine public (exemples) ---
-    // Ces recettes peuvent être stockées dans une collection Strapi à l'avenir.
-    const publicDomainRecipes = [
-      {
-        id: 1,
-        title: "Salade Composée Fraîcheur (Végétarien, Facile)",
-        duration: "15 minutes",
-        ingredients: [
-          { name: "Laitue", quantity: "1 tête" },
-          { name: "Tomates cerises", quantity: "250g" },
-          { name: "Concombre", quantity: "1" },
-          { name: "Feta", quantity: "100g" },
-          { name: "Olives noires", quantity: "50g" },
-          { name: "Huile d'olive", quantity: "2 c. à soupe" },
-          { name: "Vinaigre balsamique", quantity: "1 c. à soupe" },
-          { name: "Sel, poivre", quantity: "au goût" },
-        ],
-        steps: [
-          "Laver et couper la laitue, les tomates et le concombre.",
-          "Émietter la feta et couper les olives en rondelles.",
-          "Mélanger tous les ingrédients dans un grand saladier.",
-          "Préparer la vinaigrette avec l'huile, le vinaigre, le sel et le poivre. Verser sur la salade et servir frais."
-        ],
-        cuisineType: "Méditerranéenne",
-        numPeople: 2,
-        maxDuration: 20,
-        difficulty: "Facile",
-        robotCompatible: false,
-        source: "Domaine Public"
-      },
-      {
-        id: 2,
-        title: "Pâtes au Pesto et Poulet Grillé (Facile)",
-        duration: "25 minutes",
-        ingredients: [
-          { name: "Pâtes (type penne)", quantity: "200g" },
-          { name: "Blanc de poulet", quantity: "200g" },
-          { name: "Pesto", quantity: "4 c. à soupe" },
-          { name: "Tomates séchées", quantity: "50g" },
-          { name: "Parmesan râpé", quantity: "2 c. à soupe" },
-          { name: "Huile d'olive", quantity: "1 c. à soupe" },
-          { name: "Sel, poivre", quantity: "au goût" },
-        ],
-        steps: [
-          "Faire cuire les pâtes selon les instructions du paquet.",
-          "Pendant ce temps, couper le poulet en dés et le faire griller à la poêle avec un filet d'huile d'olive jusqu'à ce qu'il soit doré.",
-          "Égoutter les pâtes. Dans un grand saladier, mélanger les pâtes chaudes avec le pesto, le poulet grillé et les tomates séchées coupées en morceaux.",
-          "Servir chaud, saupoudré de parmesan râpé."
-        ],
-        cuisineType: "Italienne",
-        numPeople: 2,
-        maxDuration: 30,
-        difficulty: "Facile",
-        robotCompatible: false,
-        source: "Domaine Public"
-      },
-      {
-        id: 3,
-        title: "Curry Végétarien aux Lentilles Corail (Moyen, Rapide)",
-        duration: "35 minutes",
-        ingredients: [
-          { name: "Lentilles corail", quantity: "150g" },
-          { name: "Lait de coco", quantity: "400ml" },
-          { name: "Oignon", quantity: "1" },
-          { name: "Gousses d'ail", quantity: "2" },
-          { name: "Gingembre frais", quantity: "1 morceau (2cm)" },
-          { name: "Pâte de curry rouge", quantity: "1 c. à soupe" },
-          { name: "Épinards frais", quantity: "200g" },
-          { name: "Huile végétale", quantity: "1 c. à soupe" },
-          { name: "Riz Basmati", quantity: "150g" }
-        ],
-        steps: [
-          "Rincer les lentilles corail. Hacher l'oignon, l'ail et le gingembre.",
-          "Dans une casserole, faire chauffer l'huile. Faire revenir l'oignon, l'ail et le gingembre hachés pendant 2 minutes.",
-          "Ajouter la pâte de curry et cuire 1 minute en remuant.",
-          "Ajouter les lentilles corail, le lait de coco et 200ml d'eau. Porter à ébullition, puis réduire le feu et laisser mijoter 15-20 minutes, jusqu'à ce que les lentilles soient tendres.",
-          "Ajouter les épinards en fin de cuisson et remuer jusqu'à ce qu'ils soient flétris.",
-          "Pendant ce temps, cuire le riz Basmati selon les instructions du paquet. Servir le curry avec le riz."
-        ],
-        cuisineType: "Asiatique",
-        numPeople: 3,
-        maxDuration: 40,
-        difficulty: "Moyen",
-        robotCompatible: false,
-        source: "Domaine Public"
-      },
-      {
-        id: 4,
-        title: "Omelette aux Fines Herbes (Simple)",
-        duration: "10 minutes",
-        ingredients: [
-          { name: "Oeufs", quantity: "3" },
-          { name: "Lait", quantity: "1 c. à soupe" },
-          { name: "Fines herbes (persil, ciboulette)", quantity: "1 c. à café hachées" },
-          { name: "Beurre", quantity: "1 noix" },
-          { name: "Sel, poivre", quantity: "au goût" },
-        ],
-        steps: [
-          "Casser les œufs dans un bol, ajouter le lait, le sel, le poivre et les fines herbes. Battre énergiquement.",
-          "Faire fondre le beurre dans une poêle à feu moyen.",
-          "Verser le mélange d'œufs dans la poêle chaude. Laisser prendre les bords, puis ramener la partie cuite vers le centre.",
-          "Quand l'omelette est baveuse ou cuite à votre goût, plier en deux et servir immédiatement."
-        ],
-        cuisineType: "Française",
-        numPeople: 1,
-        maxDuration: 15,
-        difficulty: "Facile",
-        robotCompatible: false,
-        source: "Domaine Public"
-      }
-      // Vous pouvez ajouter d'autres recettes ici
-    ];
 
     let selectedRecipe = null;
 
-    if (actionType === 'searchExisting') {
-      // --- LOGIQUE DE RECHERCHE DE RECETTES EXISTANTES PAR INGRÉDIENTS ---
-      if (ingredients && ingredients.length > 0) {
-        const requestedIngredientsLower = ingredients.map(i => i.toLowerCase());
+    if (actionType === 'generateAI') {
+      // --- LOGIQUE DE GÉNÉRATION IA (MOCKÉE ET ENREGISTRÉE DANS LA BD) ---
+      // Cette structure DOIT correspondre EXACTEMENT aux noms et types de champs de votre collection 'recipie' dans Strapi.
+      const mockRecipeData = {
+        // ID et autres champs générés par Strapi. N'incluez pas 'id', 'createdAt', 'updatedAt', 'publishedAt' ici.
+        title: `Recette AI pour ${cuisineType || 'Cuisine Variée'} - ${new Date().toLocaleTimeString('fr-FR')}`, // Exemple de titre dynamique
+        duration: `${Math.floor(Math.random() * (maxDuration - 20) + 20)} minutes`, // Durée aléatoire basée sur maxDuration
         
-        // Recherche une recette qui contient au moins UN des ingrédients demandés
-        selectedRecipe = publicDomainRecipes.find(recipe => 
-          recipe.ingredients.some(recipeIng => 
-            requestedIngredientsLower.some(reqIng => recipeIng.name.toLowerCase().includes(reqIng))
-          )
-        );
+        // ATTENTION: Ces champs 'ingredients' et 'steps' DOIVENT être de type JSON dans Strapi Content-Type Builder
+        ingredients: [
+          { name: "Pomme de terre", quantity: "2 moyennes" },
+          { name: "Carotte", quantity: "3" },
+          { name: "Oignon", quantity: "1" },
+          { name: "Pois chiches (en conserve)", quantity: "1 boîte (400g)" },
+          { name: "Pâte de curry vert", quantity: "2 c. à soupe" },
+          { name: "Lait de coco", quantity: "400 ml" },
+          { name: "Riz Basmati", quantity: "200g" },
+          { name: "Coriandre fraîche", quantity: "quelques brins" }
+        ],
+        steps: [
+          "1. Préparer les légumes: Éplucher et couper les pommes de terre et carottes en dés. Hacher l'oignon.",
+          "2. Faire revenir: Dans une cocotte, faire chauffer un filet d'huile. Ajouter l'oignon haché et faire revenir quelques minutes jusqu'à ce qu'il soit translucide.",
+          "3. Ajouter les arômes: Incorporer la pâte de curry et faire cuire 1 minute en remuant constamment pour libérer les saveurs.",
+          "4. Simmer: Ajouter les pommes de terre, les carottes, les pois chiches égouttés, et le lait de coco. Porter à ébullition, puis réduire le feu et laisser mijoter 20-25 minutes, jusqu'à ce que les légumes soient tendres.",
+          "5. Servir: Pendant ce temps, cuire le riz Basmati. Servir le curry chaud, garni de coriandre fraîche.",
+        ],
+        
+        cuisineType: cuisineType || "Asiatique", // Utilise la préférence ou une valeur par défaut
+        numPeople: numPeople || 2, // Utilise la préférence ou une valeur par default
+        maxDuration: maxDuration || 60, // Utilise la préférence ou une valeur par default
+        difficulty: difficulty || "Facile", // Utilise la préférence ou une valeur par default
+        robotCompatible: robotCompatible || false, // Utilise la préférence ou une valeur par default
+        aiTested: true, // Marque la recette comme générée par l'IA
+        source: "IA Générée", // Indique la source de la recette
+        // NOUVEAU CHAMP POUR L'IMAGE
+        imageUrl: "https://placehold.co/600x400/FF5733/FFFFFF?text=Recette+AI+Image" // URL d'image de substitution
+      };
 
-        // Si aucune correspondance directe par ingrédient, peut fallback sur la cuisine ou difficulté si spécifié
-        if (!selectedRecipe) {
-          if (cuisineType && publicDomainRecipes.find(r => r.cuisineType.toLowerCase() === cuisineType.toLowerCase())) {
-            selectedRecipe = publicDomainRecipes.find(r => r.cuisineType.toLowerCase() === cuisineType.toLowerCase());
-          } else if (difficulty && publicDomainRecipes.find(r => r.difficulty.toLowerCase() === difficulty.toLowerCase())) {
-            selectedRecipe = publicDomainRecipes.find(r => r.difficulty.toLowerCase() === difficulty.toLowerCase());
-          }
+      try {
+        // Enregistre la recette dans la base de données Strapi
+        // ASSUREZ-VOUS que 'api::recipie.recipie' correspond à l'API ID de votre Collection Type
+        // Si votre collection s'appelle 'Recipe' (singulier, avec 'e'), ce serait 'api::recipe.recipe'
+        selectedRecipe = await strapi.entityService.create('api::recipie.recipie', { 
+          data: mockRecipeData,
+        });
+        console.log("Recette AI mockée enregistrée dans la BD:", selectedRecipe);
+
+      } catch (error) {
+        console.error("Erreur lors de l'enregistrement de la recette AI:", error);
+        // Détaillez l'erreur si c'est une erreur de validation Strapi
+        if (error.details && error.details.errors) {
+            console.error("Détails de l'erreur Strapi:", error.details.errors);
+            const validationErrors = error.details.errors.map(err => `${err.path}: ${err.message}`).join(', ');
+            ctx.badRequest(`Erreur de validation Strapi: ${validationErrors}`);
+        } else {
+            ctx.badRequest('Erreur lors de la génération et de l\'enregistrement de la recette AI.');
         }
+        return;
+      }
 
-      } else {
-        // Si aucun ingrédient n'est fourni pour la recherche, renvoyer une erreur ou une recette aléatoire
+    } else if (actionType === 'searchExisting') {
+      // --- LOGIQUE DE RECHERCHE DE RECETTES EXISTANTES (DANS LA BD) ---
+      if (!ingredients || ingredients.length === 0) {
         ctx.badRequest('Veuillez fournir des ingrédients pour la recherche.');
         return;
       }
-    } else { // actionType est 'generateAI' ou non spécifié (comportement par défaut)
-      // --- LOGIQUE DE GÉNÉRATION IA (MOCKÉE POUR L'INSTANT) ---
-      // Renvoie une recette aléatoire parmi les exemples de domaine public pour simuler la génération IA
-      selectedRecipe = publicDomainRecipes[Math.floor(Math.random() * publicDomainRecipes.length)];
+
+      // Convertit les ingrédients de recherche en tableau de chaînes en minuscules
+      const requestedIngredientsLower = Array.isArray(ingredients) ?
+                                        ingredients.map(i => i.toLowerCase()) :
+                                        String(ingredients).split(',').map(item => item.trim().toLowerCase()).filter(item => item.length > 0);
+
+      try {
+        // Recherche des recettes dans la base de données Strapi
+        // NOTE: La recherche sur des champs JSON (comme 'ingredients') est complexe.
+        // Pour une recherche plus robuste, Strapi ne supporte pas nativement une recherche sur tous les éléments d'un tableau JSON.
+        // Vous pouvez rechercher si la chaîne JSON CONTIENT un des ingrédients demandés,
+        // ou ajouter un champ texte séparé pour les mots-clés d'ingrédients pour faciliter la recherche.
+        
+        // Exemple de filtre de recherche simple: recherche si la description JSON des ingrédients contient le premier ingrédient demandé
+        let filters = {
+          $or: [
+            // Filtre optionnel par type de cuisine si fourni
+            cuisineType ? { cuisineType: { $eq: cuisineType } } : undefined,
+            // Filtre optionnel par difficulté si fournie
+            difficulty ? { difficulty: { $eq: difficulty } } : undefined,
+          ].filter(Boolean), // Supprime les éléments undefined du tableau
+        };
+
+        // Ajoute un filtre pour les ingrédients si la liste n'est pas vide
+        if (requestedIngredientsLower.length > 0) {
+            // Strapi nécessite une chaîne pour $containsi sur un champ JSON,
+            // ce qui limite la recherche à la présence d'une sous-chaîne dans la représentation TEXTUELLE du JSON.
+            // Une recherche plus avancée nécessiterait des relations ou une extension de l'API.
+            filters.ingredients = { $containsi: requestedIngredientsLower[0] }; 
+        }
+
+        const foundRecipes = await strapi.entityService.find('api::recipie.recipie', { 
+          filters: filters,
+          limit: 1, // Limite la recherche à la première recette trouvée
+        });
+
+        if (foundRecipes && foundRecipes.length > 0) {
+          selectedRecipe = foundRecipes[0];
+        } else {
+          ctx.notFound('Aucune recette existante trouvée correspondant à vos critères.');
+          return;
+        }
+
+      } catch (error) {
+        console.error("Erreur lors de la recherche de recettes existantes:", error);
+        ctx.badRequest('Erreur lors de la recherche de recettes.');
+        return;
+      }
+    } else {
+      ctx.badRequest('Type d\'action non valide.');
+      return;
     }
 
     if (selectedRecipe) {
-      // Simuler l'ajout de propriétés comme 'aiTested' et 'robotCompatible'
-      // Ces valeurs devraient idéalement être dans la base de données Strapi pour chaque recette
-      selectedRecipe.aiTested = true; // Simule que ces recettes "pré-générées" sont validées
-      selectedRecipe.robotCompatible = Math.random() > 0.5; // Simule la compatibilité robot
-      
+      // Retourne la recette générée/trouvée
       return { recipe: selectedRecipe };
     } else {
-      // Si aucune recette n'est trouvée (même pas les exemples), renvoyer une erreur
-      ctx.badRequest('Aucune recette trouvée correspondant à vos critères.');
-      return;
+      // Cas où aucune recette n'a été traitée (par ex. si la logique est tombée à travers)
+      ctx.badRequest('Aucune recette traitée.'); 
     }
   },
 };

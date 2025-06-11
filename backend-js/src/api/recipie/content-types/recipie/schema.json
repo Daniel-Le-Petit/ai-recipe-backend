@@ -14,32 +14,32 @@
     "title": {
       "type": "string"
     },
-    "description": {
-      "type": "blocks"
+    "duration": {
+      "type": "string"
     },
     "ingredients": {
       "type": "json"
     },
-    "preparation_time": {
+    "steps": {
+      "type": "json"
+    },
+    "numPeople": {
+      "type": "integer"
+    },
+    "maxDuration": {
       "type": "integer"
     },
     "difficulty": {
-      "type": "enumeration",
-      "enum": [
-        "Easy",
-        "Medium",
-        "Hard"
-      ]
+      "type": "string"
     },
-    "image": {
-      "type": "media",
-      "multiple": false,
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ]
+    "robotCompatible": {
+      "type": "boolean"
+    },
+    "aiTested": {
+      "type": "boolean"
+    },
+    "imageUrl": {
+      "type": "string"
     }
   }
 }
