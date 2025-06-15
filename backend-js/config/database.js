@@ -1,30 +1,39 @@
 // backend-js/config/database.js
+
 const path = require('path');
 
 module.exports = ({ env }) => ({
   connection: {
-    client: 'postgres',
-    connection: {
-      // Ces valeurs par défaut sont pour votre environnement LOCAL (si non définies via ENV vars)
-      // Elles devraient correspondre à votre configuration PostgreSQL locale.
-      host: env('DATABASE_HOST', 'localhost'),
-      port: env.int('DATABASE_PORT', 5432),
-      database: env('DATABASE_NAME', 'aifinesherbes'), // <<< Assurez-vous que c'est le nom de votre DB locale
-      user: env('DATABASE_USERNAME', 'postgres'),     // <<< Assurez-vous que c'est le user de votre DB locale
-      password: env('DATABASE_PASSWORD', 'AliceNinon2025!'), // <<< Assurez-vous que c'est le mot de passe de votre DB locale
-      
-      // >>>>>>> SECTION SSL CRUCIALE POUR RENDER <<<<<<<
-      ssl: env.bool('DATABASE_SSL', false) ? {
-        rejectUnauthorized: env.bool('DATABASE_SSL_REJECT_UNAUTHORIZED', false),
-        // Cette option 'extra' est cruciale pour la compatibilité SSL avec Render
-        extra: {
-          ssl: true, 
-        }, 
-      } : false, 
-    },
+    // Le client par défaut est 'postgres', mais il sera surchargé si DATABASE_URL n'est pas définie.
+    // Cela garantit que votre environnement de production utilise PostgreSQL.
+    client: 'postgres', 
+    connection: env('DATABASE_URL')
+      ? {
+          // Si DATABASE_URL est définie (ce qui sera le cas sur Render pour votre service de production),
+          // utilisez PostgreSQL.
+          client: 'pg', // Assurez-vous d'avoir 'pg' installé: npm install pg dans votre backend-js
+          connectionString: env('DATABASE_URL', 'postgresql://localhost:5432/strapi'),
+          ssl: { rejectUnauthorized: false }, // Nécessaire pour Render PostgreSQL
+        }
+      : {
+          // Si DATABASE_URL n'est PAS définie (par exemple, pour votre nouveau service aifb-backend-dev),
+          // utilisez SQLite pour l'environnement de développement.
+          // Les données seront stockées dans un fichier '.tmp/data.db' à l'intérieur de l'application
+          // et seront effacées à chaque redéploiement ou redémarrage du service sur Render.
+          client: 'sqlite',
+          connection: {
+            filename: path.join(__dirname, '..', env('DATABASE_FILENAME', '.tmp/data.db')),
+          },
+          useNullAsDefault: true,
+        },
     pool: {
-      min: env.int('DATABASE_POOL_MIN', 2), // Valeur recommandée pour Strapi
-      max: env.int('DATABASE_POOL_MAX', 10),
+      min: 0,
+      max: 10,
+      createTimeoutMillis: 30000,
+      acquireTimeoutMillis: 30000,
+      idleTimeoutMillis: 30000,
+      reapIntervalMillis: 1000,
+      createRetryIntervalMillis: 100,
     },
   },
 });
