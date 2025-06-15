@@ -1,30 +1,29 @@
-// backend-js/config/database.js
 const path = require('path');
 
 module.exports = ({ env }) => ({
   connection: {
     client: 'postgres',
     connection: {
-      // Ces valeurs par défaut sont pour votre environnement LOCAL (si non définies via ENV vars)
-      // Elles devraient correspondre à votre configuration PostgreSQL locale.
-      host: env('DATABASE_HOST', 'localhost'),
-      port: env.int('DATABASE_PORT', 5432),
-      database: env('DATABASE_NAME', 'aifinesherbes'), // <<< Assurez-vous que c'est le nom de votre DB locale
-      user: env('DATABASE_USERNAME', 'postgres'),     // <<< Assurez-vous que c'est le user de votre DB locale
-      password: env('DATABASE_PASSWORD', 'AliceNinon2025!'), // <<< Assurez-vous que c'est le mot de passe de votre DB locale
-      
-      // >>>>>>> SECTION SSL CRUCIALE POUR RENDER <<<<<<<
-      ssl: env.bool('DATABASE_SSL', false) ? {
-        rejectUnauthorized: env.bool('DATABASE_SSL_REJECT_UNAUTHORIZED', false),
-        // Cette option 'extra' est cruciale pour la compatibilité SSL avec Render
-        extra: {
-          ssl: true, 
-        }, 
-      } : false, 
+      // Hôte de votre base de données sur Render.
+      // Nous l'avons mis en dur ici pour le dépannage local,
+      // mais en production, il est recommandé de le gérer via les variables d'environnement de Render.
+      host: env('DATABASE_HOST', 'dpg-d13af43uibrs7380cfl0-a.frankfurt-postgres.render.com'),
+      port: env.int('DATABASE_PORT', 5432), // Port par défaut de PostgreSQL sur Render
+      // Le nom de votre base de données sur Render est aifb_a2h0
+      database: env('DATABASE_NAME', 'aifb_a2h0'), 
+      // Votre nom d'utilisateur pour la base de données sur Render (ex: 'aifb').
+      // Assurez-vous que cette valeur correspond.
+      user: env('DATABASE_USERNAME', 'aifb'), 
+      // Votre mot de passe pour la base de données sur Render.
+      // C'est CRUCIAL. Ne le mettez JAMAIS en dur directement dans ce fichier pour la production.
+      // Pour le développement local, si vous n'utilisez pas de .env, vous pouvez le mettre ici
+      // mais la meilleure pratique est d'utiliser les variables d'environnement.
+      password: env('DATABASE_PASSWORD', 'YD73qk3D1tRwEwNGcn6L3hXyEHxex00a'), 
+      ssl: env.bool('DATABASE_SSL', true), // Render PostgreSQL nécessite SSL
     },
     pool: {
-      min: env.int('DATABASE_POOL_MIN', 2), // Valeur recommandée pour Strapi
-      max: env.int('DATABASE_POOL_MAX', 10),
+      min: 0,
+      max: 10,
     },
   },
 });
