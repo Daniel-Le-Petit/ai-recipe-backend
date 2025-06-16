@@ -390,7 +390,7 @@ export interface ApiRecipieRecipie extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     difficulty: Schema.Attribute.String;
     duration: Schema.Attribute.String;
-    imageUrl: Schema.Attribute.String;
+    imageUrl: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     ingredients: Schema.Attribute.JSON;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
