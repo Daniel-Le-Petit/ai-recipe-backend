@@ -11,42 +11,25 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "title": {
-      "type": "string"
-    },
-    "duration": {
-      "type": "string"
-    },
-    "ingredients": {
-      "type": "json"
-    },
-    "steps": {
-      "type": "json"
-    },
-    "numPeople": {
-      "type": "integer"
-    },
-    "maxDuration": {
-      "type": "integer"
-    },
-    "difficulty": {
-      "type": "string"
-    },
-    "robotCompatible": {
-      "type": "boolean"
-    },
-    "aiTested": {
-      "type": "boolean"
-    },
+    "title": { "type": "string" },
+    "duration": { "type": "string" },
+    "ingredients": { "type": "json" },
+    "steps": { "type": "json" },
+    "numPeople": { "type": "integer" },
+    "maxDuration": { "type": "integer" },
+    "difficulty": { "type": "string" },
+    "robotCompatible": { "type": "boolean" },
+    "aiTested": { "type": "boolean" },
     "imageUrl": {
       "type": "media",
       "multiple": false,
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ]
+      "allowedTypes": ["images", "files", "videos", "audios"]
+    },
+    "category": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::category-recipe.category-recipe",
+      "inversedBy": "recipes"
     }
   }
 }
