@@ -4,49 +4,82 @@
   "info": {
     "singularName": "recipie",
     "pluralName": "recipies",
-    "displayName": "recipie"
+    "displayName": "Recipie",
+    "description": "Recipe collection"
   },
   "options": {
-    "draftAndPublish": false
+    "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
     "title": {
-      "type": "string"
+      "type": "string",
+      "required": true,
+      "maxLength": 255
     },
-    "duration": {
-      "type": "string"
+    "description": {
+      "type": "text",
+      "required": false
     },
     "ingredients": {
-      "type": "json"
+      "type": "json",
+      "required": false
     },
-    "steps": {
-      "type": "json"
+    "instructions": {
+      "type": "text",
+      "required": false
     },
-    "numPeople": {
-      "type": "integer"
-    },
-    "maxDuration": {
-      "type": "integer"
+    "duration": {
+      "type": "integer",
+      "required": false,
+      "min": 1
     },
     "difficulty": {
-      "type": "string"
+      "type": "enumeration",
+      "enum": [
+        "Facile",
+        "Intermédiaire",
+        "Difficile"
+      ],
+      "required": false
     },
-    "robotCompatible": {
-      "type": "boolean"
+    "servings": {
+      "type": "integer",
+      "required": false,
+      "min": 1
     },
-    "aiTested": {
-      "type": "boolean"
-    },
-    "imageUrl": {
+    "image": {
       "type": "media",
       "multiple": false,
+      "required": false,
       "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
+        "images"
       ]
+    },
+    "recipieCategory": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::recipie-category.recipie-category"
+    },
+    "isRobotCompatible": {
+      "type": "boolean",
+      "default": false,
+      "required": false
+    },
+    "tags": {
+      "type": "json",
+      "required": false
+    },
+    "rating": {
+      "type": "decimal",
+      "required": false,
+      "min": 0,
+      "max": 5
+    },
+    "author": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user"
     }
   }
 }

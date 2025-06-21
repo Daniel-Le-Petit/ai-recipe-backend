@@ -1,0 +1,47 @@
+{
+  "kind": "collectionType",
+  "collectionName": "recipie_categories",
+  "info": {
+    "singularName": "recipie-category",
+    "pluralName": "recipie-categories",
+    "displayName": "RecipieCategory",
+    "description": "Categories for recipes"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "categoryName": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "categorySlug": {
+      "type": "string",
+      "required": false,
+      "unique": true,
+      "maxLength": 100
+    },
+    "categoryDescription": {
+      "type": "text",
+      "required": false
+    },
+    "categoryImage": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "recipies": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::recipie.recipie",
+      "mappedBy": "recipieCategory"
+    }
+  }
+}

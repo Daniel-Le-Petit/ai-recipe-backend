@@ -1,12 +1,12 @@
 'use strict';
 
 /**
- * recipie router
+ * recipie-category router
  */
 
 const { createCoreRouter } = require('@strapi/strapi').factories;
 
-const defaultRouter = createCoreRouter('api::recipie.recipie');
+const defaultRouter = createCoreRouter('api::recipie-category.recipie-category');
 
 // Fonction pour ajouter des routes personnalisées
 const customRoutes = (innerRouter, extraRoutes = []) => {
@@ -19,8 +19,8 @@ const customRoutes = (innerRouter, extraRoutes = []) => {
       if (!routes) routes = innerRouter.routes.concat([
         {
           method: 'GET',
-          path: '/recipies/category/:categoryId',
-          handler: 'recipie.findByCategory',
+          path: '/recipie-categories/slug/:slug',
+          handler: 'recipie-category.findBySlug',
           config: {
             policies: [],
             middlewares: [],
@@ -28,8 +28,8 @@ const customRoutes = (innerRouter, extraRoutes = []) => {
         },
         {
           method: 'GET',
-          path: '/recipies/difficulty/:difficulty',
-          handler: 'recipie.findByDifficulty',
+          path: '/recipie-categories/:id/stats',
+          handler: 'recipie-category.getCategoryStats',
           config: {
             policies: [],
             middlewares: [],
@@ -37,17 +37,8 @@ const customRoutes = (innerRouter, extraRoutes = []) => {
         },
         {
           method: 'GET',
-          path: '/recipies/robot-compatible',
-          handler: 'recipie.findRobotCompatible',
-          config: {
-            policies: [],
-            middlewares: [],
-          },
-        },
-        {
-          method: 'POST',
-          path: '/recipies/:id/rate',
-          handler: 'recipie.rateRecipe',
+          path: '/recipie-categories/stats/all',
+          handler: 'recipie-category.findAllWithStats',
           config: {
             policies: [],
             middlewares: [],
