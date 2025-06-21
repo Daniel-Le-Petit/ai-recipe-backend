@@ -373,37 +373,117 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiRecipieCategoryRecipieCategory
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'recipie_categories';
+  info: {
+    description: 'Categories for recipes';
+    displayName: 'RecipieCategory';
+    pluralName: 'recipie-categories';
+    singularName: 'recipie-category';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    categoryDescription: Schema.Attribute.Text;
+    categoryImage: Schema.Attribute.Media<'images', true>;
+    categoryName: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 100;
+        minLength: 1;
+      }>;
+    categorySlug: Schema.Attribute.String &
+      Schema.Attribute.Unique &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 100;
+      }>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::recipie-category.recipie-category'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    recipies: Schema.Attribute.Relation<'oneToMany', 'api::recipie.recipie'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiRecipieRecipie extends Struct.CollectionTypeSchema {
   collectionName: 'recipies';
   info: {
-    displayName: 'recipie';
+    description: 'Recipe collection';
+    displayName: 'Recipie';
     pluralName: 'recipies';
     singularName: 'recipie';
   };
   options: {
-    draftAndPublish: false;
+    draftAndPublish: true;
   };
   attributes: {
-    aiTested: Schema.Attribute.Boolean;
+    author: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    difficulty: Schema.Attribute.String;
-    duration: Schema.Attribute.String;
-    imageUrl: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    description: Schema.Attribute.Text;
+    difficulty: Schema.Attribute.Enumeration<
+      ['Facile', 'Interm\u00E9diaire', 'Difficile']
+    >;
+    duration: Schema.Attribute.Integer &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 1;
+        },
+        number
+      >;
+    image: Schema.Attribute.Media<'images'>;
     ingredients: Schema.Attribute.JSON;
+    instructions: Schema.Attribute.Text;
+    isRobotCompatible: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<false>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::recipie.recipie'
     > &
       Schema.Attribute.Private;
-    maxDuration: Schema.Attribute.Integer;
-    numPeople: Schema.Attribute.Integer;
     publishedAt: Schema.Attribute.DateTime;
-    robotCompatible: Schema.Attribute.Boolean;
-    steps: Schema.Attribute.JSON;
-    title: Schema.Attribute.String;
+    rating: Schema.Attribute.Decimal &
+      Schema.Attribute.SetMinMax<
+        {
+          max: 5;
+          min: 0;
+        },
+        number
+      >;
+    recipieCategory: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::recipie-category.recipie-category'
+    >;
+    servings: Schema.Attribute.Integer &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 1;
+        },
+        number
+      >;
+    tags: Schema.Attribute.JSON;
+    title: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 255;
+      }>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -947,6 +1027,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::recipie-category.recipie-category': ApiRecipieCategoryRecipieCategory;
       'api::recipie.recipie': ApiRecipieRecipie;
       'api::test-entity.test-entity': ApiTestEntityTestEntity;
       'plugin::content-releases.release': PluginContentReleasesRelease;
