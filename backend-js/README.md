@@ -1,61 +1,226 @@
-# 🚀 Getting started with Strapi
+# 🍳 API de Recettes - Backend Strapi
 
-Strapi comes with a full featured [Command Line Interface](https://docs.strapi.io/dev-docs/cli) (CLI) which lets you scaffold and manage your project in seconds.
+Une API complète pour gérer des recettes de cuisine avec catégorisation, notation et compatibilité robot de cuisine.
 
-### `develop`
+## 🚀 **Démarrage Rapide**
 
-Start your Strapi application with autoReload enabled. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-develop)
+### Prérequis
+- Node.js (v16 ou supérieur)
+- npm ou yarn
+- Base de données (SQLite par défaut)
 
-```
+### Installation
+```bash
+# Cloner le projet
+git clone <repository-url>
+cd backend-js
+
+# Installer les dépendances
+npm install
+
+# Démarrer en mode développement
 npm run develop
-# or
-yarn develop
 ```
 
-### `start`
-
-Start your Strapi application with autoReload disabled. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-start)
-
-```
-npm run start
-# or
-yarn start
+### Démarrage Automatique avec Tests
+```bash
+# Démarrer Strapi et lancer les tests automatiquement
+node start-dev.js
 ```
 
-### `build`
+## 📋 **Fonctionnalités**
 
-Build your admin panel. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-build)
+### 🍳 **Gestion des Recettes**
+- ✅ Création, lecture, mise à jour, suppression (CRUD)
+- ✅ Catégorisation automatique
+- ✅ Système de notation (0-5 étoiles)
+- ✅ Gestion des ingrédients (JSON structuré)
+- ✅ Instructions de préparation
+- ✅ Durée et difficulté
+- ✅ Compatibilité robot de cuisine
+- ✅ Tags et métadonnées
+- ✅ Images de recettes
+- ✅ Attribution d'auteur
+
+### 📂 **Gestion des Catégories**
+- ✅ Création et gestion de catégories
+- ✅ Slugs automatiques pour URLs
+- ✅ Images de catégories
+- ✅ Statistiques par catégorie
+- ✅ Relations avec les recettes
+
+### 🔍 **Recherche et Filtrage**
+- ✅ Recherche par catégorie
+- ✅ Filtrage par difficulté
+- ✅ Recettes compatibles robot
+- ✅ Recherche par tags
+- ✅ Tri par popularité/date
+
+### 📊 **Statistiques et Analytics**
+- ✅ Statistiques par catégorie
+- ✅ Notes moyennes
+- ✅ Distribution des difficultés
+- ✅ Durées moyennes
+- ✅ Recettes populaires
+
+## 🛣️ **Endpoints API**
+
+### 🍳 **Recettes**
+```
+GET    /api/recipies                    # Toutes les recettes
+GET    /api/recipies/:id                # Recette par ID
+POST   /api/recipies                    # Créer une recette
+PUT    /api/recipies/:id                # Mettre à jour
+DELETE /api/recipies/:id                # Supprimer
+
+# Recherches spécialisées
+GET    /api/recipies/category/:id       # Par catégorie
+GET    /api/recipies/difficulty/:level  # Par difficulté
+GET    /api/recipies/robot-compatible   # Compatibles robot
+POST   /api/recipies/:id/rate           # Noter une recette
+```
+
+### 📂 **Catégories**
+```
+GET    /api/recipie-categories          # Toutes les catégories
+GET    /api/recipie-categories/:id      # Catégorie par ID
+POST   /api/recipie-categories          # Créer une catégorie
+PUT    /api/recipie-categories/:id      # Mettre à jour
+DELETE /api/recipie-categories/:id      # Supprimer
+
+# Recherches spécialisées
+GET    /api/recipie-categories/slug/:slug    # Par slug
+GET    /api/recipie-categories/:id/stats     # Statistiques
+GET    /api/recipie-categories/stats/all     # Toutes les stats
+```
+
+## 🧪 **Tests**
+
+### Lancer les Tests
+```bash
+# Tests complets de l'API
+node test-api.js
+
+# Tests avec Strapi automatique
+node start-dev.js
+```
+
+### Tests Inclus
+- ✅ Création et récupération de catégories
+- ✅ Création et récupération de recettes
+- ✅ Recherches spécialisées
+- ✅ Système de notation
+- ✅ Validation des données
+- ✅ Relations entre entités
+
+## 📚 **Documentation Complète**
+
+Consultez le fichier `API_DOCUMENTATION.md` pour une documentation détaillée de l'API avec exemples d'utilisation.
+
+## 🏗️ **Structure du Projet**
 
 ```
+backend-js/
+├── src/
+│   ├── api/
+│   │   ├── recipie/                    # API Recettes
+│   │   │   ├── controllers/            # Contrôleurs personnalisés
+│   │   │   ├── routes/                 # Routes API
+│   │   │   ├── services/               # Services métier
+│   │   │   └── content-types/          # Schémas de données
+│   │   └── recipie-category/           # API Catégories
+│   │       ├── controllers/
+│   │       ├── routes/
+│   │       ├── services/
+│   │       └── content-types/
+│   └── extensions/                     # Extensions Strapi
+├── test-api.js                         # Script de tests
+├── start-dev.js                        # Démarrage automatique
+├── API_DOCUMENTATION.md                # Documentation API
+└── README.md                           # Ce fichier
+```
+
+## 🔧 **Configuration**
+
+### Variables d'Environnement
+```bash
+# .env
+DATABASE_CLIENT=sqlite
+DATABASE_FILENAME=.tmp/data.db
+JWT_SECRET=your-jwt-secret
+ADMIN_JWT_SECRET=your-admin-jwt-secret
+```
+
+### Base de Données
+- **Développement** : SQLite (par défaut)
+- **Production** : PostgreSQL, MySQL, ou autre
+
+## 🚀 **Déploiement**
+
+### Build pour Production
+```bash
 npm run build
-# or
-yarn build
+npm run start
 ```
 
-## ⚙️ Deployment
-
-Strapi gives you many possible deployment options for your project including [Strapi Cloud](https://cloud.strapi.io). Browse the [deployment section of the documentation](https://docs.strapi.io/dev-docs/deployment) to find the best solution for your use case.
-
-```
-yarn strapi deploy
+### Déploiement Strapi Cloud
+```bash
+npm run strapi deploy
 ```
 
-## 📚 Learn more
+## 📊 **Exemple d'Utilisation**
 
-- [Resource center](https://strapi.io/resource-center) - Strapi resource center.
-- [Strapi documentation](https://docs.strapi.io) - Official Strapi documentation.
-- [Strapi tutorials](https://strapi.io/tutorials) - List of tutorials made by the core team and the community.
-- [Strapi blog](https://strapi.io/blog) - Official Strapi blog containing articles made by the Strapi team and the community.
-- [Changelog](https://strapi.io/changelog) - Find out about the Strapi product updates, new features and general improvements.
+### Créer une Recette
+```bash
+curl -X POST "http://localhost:1337/api/recipies" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "data": {
+      "title": "Spaghetti Carbonara",
+      "description": "Classic Italian pasta",
+      "ingredients": [
+        {"name": "Spaghetti", "quantity": 400, "unit": "g"},
+        {"name": "Oeufs", "quantity": 4, "unit": "unités"}
+      ],
+      "instructions": "1. Cuire les pâtes\n2. Mélanger avec les oeufs",
+      "duration": 20,
+      "difficulty": "Facile",
+      "servings": 4,
+      "recipieCategory": 1,
+      "isRobotCompatible": true,
+      "tags": ["italien", "rapide"]
+    }
+  }'
+```
 
-Feel free to check out the [Strapi GitHub repository](https://github.com/strapi/strapi). Your feedback and contributions are welcome!
+### Noter une Recette
+```bash
+curl -X POST "http://localhost:1337/api/recipies/1/rate" \
+  -H "Content-Type: application/json" \
+  -d '{"rating": 4.5}'
+```
 
-## ✨ Community
+## 🤝 **Contribution**
 
-- [Discord](https://discord.strapi.io) - Come chat with the Strapi community including the core team.
-- [Forum](https://forum.strapi.io/) - Place to discuss, ask questions and find answers, show your Strapi project and get feedback or just talk with other Community members.
-- [Awesome Strapi](https://github.com/strapi/awesome-strapi) - A curated list of awesome things related to Strapi.
+1. Fork le projet
+2. Créer une branche feature (`git checkout -b feature/AmazingFeature`)
+3. Commit les changements (`git commit -m 'Add AmazingFeature'`)
+4. Push vers la branche (`git push origin feature/AmazingFeature`)
+5. Ouvrir une Pull Request
+
+## 📝 **Licence**
+
+Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
+
+## 🆘 **Support**
+
+- 📧 Email : support@example.com
+- 💬 Discord : [Serveur Discord](https://discord.gg/example)
+- 📖 Documentation : [API_DOCUMENTATION.md](API_DOCUMENTATION.md)
 
 ---
 
-<sub>🤫 Psst! [Strapi is hiring](https://strapi.io/careers).</sub>
+<div align="center">
+  <p>Fait avec ❤️ pour la communauté culinaire</p>
+  <p>🍳 Bon appétit ! 🍳</p>
+</div>
