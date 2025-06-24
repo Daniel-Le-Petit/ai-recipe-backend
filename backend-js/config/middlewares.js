@@ -1,3 +1,5 @@
+"use client";
+
 module.exports = [
   'strapi::logger',
   'strapi::errors',
@@ -9,8 +11,9 @@ module.exports = [
       // URLs autorisées à faire des requêtes vers votre backend Strapi
       origin: [
         'http://localhost:5173',          // Votre frontend React en développement
+        'http://localhost:3000',          // Frontend Next.js en développement
         'https://aifb-frontend.onrender.com', // Votre frontend déployé sur Render
-        'https://aifb-frontend-dev.loca.lt', // Si vous utilisez localtunnel pour le frontend
+        'https://aifb-frontend-m.onrender.com', // Votre frontend déployé sur Render
       ],
       // Méthodes HTTP que vous autorisez
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],

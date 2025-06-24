@@ -8,7 +8,7 @@
     "description": "Recipe collection"
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {

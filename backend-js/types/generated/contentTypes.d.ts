@@ -426,7 +426,7 @@ export interface ApiRecipieRecipie extends Struct.CollectionTypeSchema {
     singularName: 'recipie';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     author: Schema.Attribute.Relation<
