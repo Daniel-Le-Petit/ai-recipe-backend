@@ -471,6 +471,10 @@ export interface ApiRecipieRecipie extends Struct.CollectionTypeSchema {
       'manyToOne',
       'api::recipie-category.recipie-category'
     >;
+    RecipieUser: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
     servings: Schema.Attribute.Integer &
       Schema.Attribute.SetMinMax<
         {
@@ -1000,6 +1004,7 @@ export interface PluginUsersPermissionsUser
       }>;
     provider: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
+    recipies: Schema.Attribute.Relation<'oneToMany', 'api::recipie.recipie'>;
     resetPasswordToken: Schema.Attribute.String & Schema.Attribute.Private;
     role: Schema.Attribute.Relation<
       'manyToOne',

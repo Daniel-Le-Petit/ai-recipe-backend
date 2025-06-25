@@ -14,8 +14,8 @@
   "attributes": {
     "title": {
       "type": "string",
-      "required": true,
-      "maxLength": 255
+      "maxLength": 255,
+      "required": true
     },
     "description": {
       "type": "text",
@@ -36,12 +36,12 @@
     },
     "difficulty": {
       "type": "enumeration",
+      "required": false,
       "enum": [
         "Facile",
         "Intermédiaire",
         "Difficile"
-      ],
-      "required": false
+      ]
     },
     "servings": {
       "type": "integer",
@@ -63,8 +63,8 @@
     },
     "isRobotCompatible": {
       "type": "boolean",
-      "default": false,
-      "required": false
+      "required": false,
+      "default": false
     },
     "tags": {
       "type": "json",
@@ -80,6 +80,12 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user"
+    },
+    "RecipieUser": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "recipies"
     }
   }
 }

@@ -69,6 +69,12 @@
     "isAdmin": {
       "type": "boolean",
       "default": false
+    },
+    "recipies": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::recipie.recipie",
+      "mappedBy": "RecipieUser"
     }
   }
 }
