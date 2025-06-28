@@ -10,10 +10,9 @@ module.exports = [
       enabled: true,
       // URLs autorisées à faire des requêtes vers votre backend Strapi
       origin: [
-        'http://localhost:5173',          // Votre frontend React en développement
+		'http://localhost:5173',          // Votre frontend React en développement
         'http://localhost:3000',          // Frontend Next.js en développement
-        'https://aifb-frontend.onrender.com', // Votre frontend déployé sur Render
-        'https://aifb-frontend-m.onrender.com', // Votre frontend déployé sur Render
+        'https://ai-recipe-frontend-3vt7.onrender.com', // Votre frontend déployé sur Render
       ],
       // Méthodes HTTP que vous autorisez
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
