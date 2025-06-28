@@ -467,6 +467,19 @@ export interface ApiRecipieRecipie extends Struct.CollectionTypeSchema {
         },
         number
       >;
+    recipeState: Schema.Attribute.Enumeration<
+      [
+        'draft',
+        'saved',
+        'submitted',
+        'approved',
+        'ordered',
+        'completed',
+        'archived',
+        'rejected',
+      ]
+    > &
+      Schema.Attribute.DefaultTo<'draft'>;
     recipieCategory: Schema.Attribute.Relation<
       'manyToOne',
       'api::recipie-category.recipie-category'

@@ -1,19 +1,38 @@
 const path = require('path');
 
-module.exports = ({ env }) => ({
-  connection: {
-    client: env('DATABASE_CLIENT', 'postgres'),
+module.exports = ({ env }) => {
+  // Use PostgreSQL for both development and production
+  const databaseClient = env('DATABASE_CLIENT', 'postgres');
+  
+  if (databaseClient === 'sqlite') {
+    // SQLite configuration (if explicitly requested)
+    return {
+      connection: {
+        client: 'sqlite',
+        connection: {
+          filename: path.join(__dirname, '..', env('DATABASE_FILENAME', '.tmp/data.db')),
+        },
+        useNullAsDefault: true,
+      },
+    };
+  }
+  
+  // PostgreSQL configuration (default)
+  return {
     connection: {
-      host: env('DATABASE_HOST', 'localhost'),
-      port: env.int('DATABASE_PORT', 5432),
-      database: env('DATABASE_NAME'),
-      user: env('DATABASE_USERNAME'),
-      password: env('DATABASE_PASSWORD'),
-      ssl: env.bool('DATABASE_SSL', false),
+      client: 'postgres',
+      connection: {
+        host: env('DATABASE_HOST', 'localhost'),
+        port: env.int('DATABASE_PORT', 5432),
+        database: env('DATABASE_NAME', 'strapi'),
+        user: env('DATABASE_USERNAME', 'postgres'),
+        password: env('DATABASE_PASSWORD', ''),
+        ssl: env.bool('DATABASE_SSL', false),
+      },
+      pool: {
+        min: 0,
+        max: 10,
+      },
     },
-    pool: {
-      min: 0,
-      max: 10,
-    },
-  },
-});
+  };
+};

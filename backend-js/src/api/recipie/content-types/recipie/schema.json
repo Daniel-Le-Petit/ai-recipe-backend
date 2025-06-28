@@ -56,6 +56,21 @@
         "images"
       ]
     },
+    "recipeState": {
+      "type": "enumeration",
+      "required": false,
+      "default": "draft",
+      "enum": [
+        "draft",
+        "saved",
+        "submitted",
+        "approved",
+        "ordered",
+        "completed",
+        "archived",
+        "rejected"
+      ]
+    },
     "recipieCategory": {
       "type": "relation",
       "relation": "manyToOne",
