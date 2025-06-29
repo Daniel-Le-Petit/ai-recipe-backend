@@ -149,6 +149,11 @@ DATABASE_CLIENT=sqlite
 DATABASE_FILENAME=.tmp/data.db
 JWT_SECRET=your-jwt-secret
 ADMIN_JWT_SECRET=your-admin-jwt-secret
+DATABASE_HOST=localhost
+DATABASE_PORT=5432
+DATABASE_USERNAME=postgres
+DATABASE_PASSWORD=postgres
+DATABASE_NAME=strapi
 ```
 
 ### Base de Données
@@ -167,6 +172,10 @@ npm run start
 ```bash
 npm run strapi deploy
 ```
+
+## 🚀 Déploiement Automatisé Test - $(date)
+
+Ce backend gère l'API pour l'application de recettes AI et Fines Herbes.
 
 ## 📊 **Exemple d'Utilisation**
 
