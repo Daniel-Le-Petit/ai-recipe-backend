@@ -29,10 +29,10 @@ try {
     "`n== Push vers GitHub ==" | Out-File $logFile -Append
     git push origin main | Out-File $logFile -Append
 
-    "`n✅ Script terminé avec succès." | Out-File $logFile -Append
+    "`Script terminé avec succès." | Out-File $logFile -Append
 }
 catch {
-    "`n❌ Une erreur est survenue : $_" | Out-File $logFile -Append
+    "Une erreur est survenue : $_" | Out-File $logFile -Append
 }
 
 Get-Content $logFile
