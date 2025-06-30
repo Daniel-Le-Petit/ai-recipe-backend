@@ -181,7 +181,7 @@ Ce backend gère l'API pour l'application de recettes AI et Fines Herbes.
 
 ### Créer une Recette
 ```bash
-curl -X POST "http://localhost:1337/api/recipies" \
+curl -X POST "http://localhost:1338/api/recipies" \
   -H "Content-Type: application/json" \
   -d '{
     "data": {
@@ -204,7 +204,7 @@ curl -X POST "http://localhost:1337/api/recipies" \
 
 ### Noter une Recette
 ```bash
-curl -X POST "http://localhost:1337/api/recipies/1/rate" \
+curl -X POST "http://localhost:1338/api/recipies/1/rate" \
   -H "Content-Type: application/json" \
   -d '{"rating": 4.5}'
 ```

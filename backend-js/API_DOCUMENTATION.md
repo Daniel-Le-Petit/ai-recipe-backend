@@ -147,6 +147,13 @@ Note une recette (0-5 étoiles).
 }
 ```
 
+### ⭐ **Noter une recette**
+```bash
+curl -X POST "http://localhost:1338/api/recipies/1/rate" \
+  -H "Content-Type: application/json" \
+  -d '{"rating": 4.5}'
+```
+
 ---
 
 ### 📂 **Catégories (`/api/recipie-categories`)**
@@ -237,24 +244,17 @@ Récupère les statistiques de toutes les catégories.
 
 ### 🔍 **Recherche de recettes par difficulté**
 ```bash
-curl -X GET "http://localhost:1337/api/recipies/difficulty/Facile"
+curl -X GET "http://localhost:1338/api/recipies/difficulty/Facile"
 ```
 
 ### 📈 **Obtenir les statistiques d'une catégorie**
 ```bash
-curl -X GET "http://localhost:1337/api/recipie-categories/1/stats"
-```
-
-### ⭐ **Noter une recette**
-```bash
-curl -X POST "http://localhost:1337/api/recipies/1/rate" \
-  -H "Content-Type: application/json" \
-  -d '{"rating": 4.5}'
+curl -X GET "http://localhost:1338/api/recipie-categories/1/stats"
 ```
 
 ### 🍝 **Créer une nouvelle recette**
 ```bash
-curl -X POST "http://localhost:1337/api/recipies" \
+curl -X POST "http://localhost:1338/api/recipies" \
   -H "Content-Type: application/json" \
   -d '{
     "data": {
@@ -294,4 +294,4 @@ curl -X POST "http://localhost:1337/api/recipies" \
 - Les images doivent être uploadées via l'API Media de Strapi
 - Les relations sont automatiquement populées selon les endpoints
 - La pagination est activée par défaut (25 éléments par page)
-- Les filtres supportent les opérateurs Strapi ($eq, $gt, $lt, $containsi, etc.) 
+- Les filtres supportent les opérateurs Strapi ($eq, $gt, $lt, $containsi, etc.)

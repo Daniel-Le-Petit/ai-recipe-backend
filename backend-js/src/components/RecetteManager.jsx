@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:1337/api/recettes';
+const API_URL = 'http://localhost:1338/api/recettes';
 
 export default function RecetteManager() {
   const [recettes, setRecettes] = useState([]);

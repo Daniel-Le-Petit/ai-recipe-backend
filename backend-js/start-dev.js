@@ -19,8 +19,8 @@ function startStrapi() {
     // Détecter quand Strapi est prêt
     if (output.includes('Welcome back!') || output.includes('To manage your project 🚀')) {
       console.log('\n✅ Strapi est prêt!');
-      console.log('🌐 Interface admin: http://localhost:1337/admin');
-      console.log('🔗 API: http://localhost:1337/api');
+      console.log('🌐 Interface admin: http://localhost:1338/admin');
+      console.log('🔗 API: http://localhost:1338/api');
       
       // Attendre un peu puis lancer les tests
       setTimeout(() => {
@@ -61,9 +61,9 @@ function runTests() {
 // Fonction pour afficher les informations utiles
 function showInfo() {
   console.log('📋 Informations utiles:');
-  console.log('├── Interface admin: http://localhost:1337/admin');
-  console.log('├── API Documentation: http://localhost:1337/documentation');
-  console.log('├── API Base URL: http://localhost:1337/api');
+  console.log('├── Interface admin: http://localhost:1338/admin');
+  console.log('├── API Documentation: http://localhost:1338/documentation');
+  console.log('├── API Base URL: http://localhost:1338/api');
   console.log('├── Fichier de test: test-api.js');
   console.log('└── Documentation: API_DOCUMENTATION.md');
   console.log('\n🔧 Commandes utiles:');
@@ -98,5 +98,4 @@ process.on('SIGINT', () => {
 process.on('SIGTERM', () => {
   console.log('\n🛑 Arrêt en cours...');
   strapiProcess.kill('SIGTERM');
-  process.exit(0);
-}); 
+  process.exit(0); 
