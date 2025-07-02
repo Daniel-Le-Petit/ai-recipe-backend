@@ -24,9 +24,9 @@ module.exports = ({ env }) => {
       connection: {
         host: env('DATABASE_HOST', 'localhost'),
         port: env.int('DATABASE_PORT', 5432),
-        database: env('DATABASE_NAME', 'strapi'),
+        database: env('DATABASE_NAME', 'aifinesherbes'),
         user: env('DATABASE_USERNAME', 'postgres'),
-        password: env('DATABASE_PASSWORD', ''),
+        password: env('DATABASE_PASSWORD', 'AliceNinon2025!'),
         ssl: env.bool('DATABASE_SSL', false),
       },
       pool: {

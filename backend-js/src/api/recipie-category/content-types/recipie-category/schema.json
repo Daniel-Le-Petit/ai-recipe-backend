@@ -8,22 +8,22 @@
     "description": "Categories for recipes"
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
     "categoryName": {
       "type": "string",
-      "required": true,
-      "unique": true,
       "minLength": 1,
-      "maxLength": 100
+      "maxLength": 100,
+      "required": true,
+      "unique": true
     },
     "categorySlug": {
       "type": "string",
+      "maxLength": 100,
       "required": false,
-      "unique": true,
-      "maxLength": 100
+      "unique": true
     },
     "categoryDescription": {
       "type": "text",
@@ -31,7 +31,7 @@
     },
     "categoryImage": {
       "type": "media",
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "allowedTypes": [
         "images"

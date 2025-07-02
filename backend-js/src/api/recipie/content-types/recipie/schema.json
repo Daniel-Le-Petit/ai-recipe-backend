@@ -4,8 +4,7 @@
   "info": {
     "singularName": "recipie",
     "pluralName": "recipies",
-    "displayName": "Recipie",
-    "description": "Recipe collection"
+    "displayName": "Recipie"
   },
   "options": {
     "draftAndPublish": false
@@ -14,29 +13,22 @@
   "attributes": {
     "title": {
       "type": "string",
-      "maxLength": 255,
       "required": true
     },
     "description": {
-      "type": "text",
-      "required": false
+      "type": "blocks"
     },
     "ingredients": {
-      "type": "json",
-      "required": false
+      "type": "json"
     },
     "instructions": {
-      "type": "text",
-      "required": false
+      "type": "text"
     },
     "duration": {
-      "type": "integer",
-      "required": false,
-      "min": 1
+      "type": "integer"
     },
     "difficulty": {
       "type": "enumeration",
-      "required": false,
       "enum": [
         "Facile",
         "Intermédiaire",
@@ -45,20 +37,20 @@
     },
     "servings": {
       "type": "integer",
-      "required": false,
       "min": 1
     },
     "image": {
       "type": "media",
       "multiple": false,
-      "required": false,
       "allowedTypes": [
-        "images"
+        "images",
+        "files",
+        "videos",
+        "audios"
       ]
     },
     "recipeState": {
       "type": "enumeration",
-      "required": false,
       "default": "draft",
       "enum": [
         "draft",
@@ -74,29 +66,21 @@
     "recipieCategory": {
       "type": "relation",
       "relation": "manyToOne",
-      "target": "api::recipie-category.recipie-category"
+      "target": "api::recipie-category.recipie-category",
+      "inversedBy": "recipies"
     },
     "isRobotCompatible": {
       "type": "boolean",
-      "required": false,
       "default": false
     },
     "tags": {
-      "type": "json",
-      "required": false
+      "type": "json"
     },
     "rating": {
       "type": "decimal",
-      "required": false,
-      "min": 0,
       "max": 5
     },
-    "author": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "plugin::users-permissions.user"
-    },
-    "RecipieUser": {
+    "RecipeUser": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",

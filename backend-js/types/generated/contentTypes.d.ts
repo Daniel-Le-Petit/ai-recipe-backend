@@ -383,11 +383,11 @@ export interface ApiRecipieCategoryRecipieCategory
     singularName: 'recipie-category';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     categoryDescription: Schema.Attribute.Text;
-    categoryImage: Schema.Attribute.Media<'images', true>;
+    categoryImage: Schema.Attribute.Media<'images'>;
     categoryName: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.Unique &
@@ -420,7 +420,6 @@ export interface ApiRecipieCategoryRecipieCategory
 export interface ApiRecipieRecipie extends Struct.CollectionTypeSchema {
   collectionName: 'recipies';
   info: {
-    description: 'Recipe collection';
     displayName: 'Recipie';
     pluralName: 'recipies';
     singularName: 'recipie';
@@ -429,25 +428,15 @@ export interface ApiRecipieRecipie extends Struct.CollectionTypeSchema {
     draftAndPublish: false;
   };
   attributes: {
-    author: Schema.Attribute.Relation<
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    description: Schema.Attribute.Text;
+    description: Schema.Attribute.Blocks;
     difficulty: Schema.Attribute.Enumeration<
       ['Facile', 'Interm\u00E9diaire', 'Difficile']
     >;
-    duration: Schema.Attribute.Integer &
-      Schema.Attribute.SetMinMax<
-        {
-          min: 1;
-        },
-        number
-      >;
-    image: Schema.Attribute.Media<'images'>;
+    duration: Schema.Attribute.Integer;
+    image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     ingredients: Schema.Attribute.JSON;
     instructions: Schema.Attribute.Text;
     isRobotCompatible: Schema.Attribute.Boolean &
@@ -463,7 +452,6 @@ export interface ApiRecipieRecipie extends Struct.CollectionTypeSchema {
       Schema.Attribute.SetMinMax<
         {
           max: 5;
-          min: 0;
         },
         number
       >;
@@ -480,13 +468,13 @@ export interface ApiRecipieRecipie extends Struct.CollectionTypeSchema {
       ]
     > &
       Schema.Attribute.DefaultTo<'draft'>;
+    RecipeUser: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
     recipieCategory: Schema.Attribute.Relation<
       'manyToOne',
       'api::recipie-category.recipie-category'
-    >;
-    RecipieUser: Schema.Attribute.Relation<
-      'manyToOne',
-      'plugin::users-permissions.user'
     >;
     servings: Schema.Attribute.Integer &
       Schema.Attribute.SetMinMax<
@@ -496,11 +484,7 @@ export interface ApiRecipieRecipie extends Struct.CollectionTypeSchema {
         number
       >;
     tags: Schema.Attribute.JSON;
-    title: Schema.Attribute.String &
-      Schema.Attribute.Required &
-      Schema.Attribute.SetMinMaxLength<{
-        maxLength: 255;
-      }>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
