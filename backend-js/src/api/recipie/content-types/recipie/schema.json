@@ -16,7 +16,7 @@
       "required": true
     },
     "description": {
-      "type": "blocks"
+      "type": "richtext"
     },
     "ingredients": {
       "type": "json"
@@ -83,7 +83,7 @@
     "RecipeUser": {
       "type": "relation",
       "relation": "manyToOne",
-      "target": "plugin::users-permissions.user",
+      "target": "plugin::users-permissions.user" ,
       "inversedBy": "recipies"
     }
   }

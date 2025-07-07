@@ -431,7 +431,7 @@ export interface ApiRecipieRecipie extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    description: Schema.Attribute.Blocks;
+    description: Schema.Attribute.RichText;
     difficulty: Schema.Attribute.Enumeration<
       ['Facile', 'Interm\u00E9diaire', 'Difficile']
     >;
