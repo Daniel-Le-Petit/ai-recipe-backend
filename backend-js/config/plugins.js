@@ -13,11 +13,4 @@ module.exports = ({ env }) => ({
       },
     },
   },
-  cors: {
-    enabled: true,
-    origin: [
-      'https://aifb-frontend-m.onrender.com',
-      'http://localhost:3000'
-    ],
-  },
 });

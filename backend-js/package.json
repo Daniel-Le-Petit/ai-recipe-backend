@@ -23,6 +23,7 @@
     "axios": "^1.10.0",
     "better-sqlite3": "11.3.0",
     "cloudinary": "^2.6.1",
+    "cors": "^2.8.5",
     "openai": "^5.1.1",
     "pg": "^8.16.2",
     "pg-connection-string": "^2.9.0",
