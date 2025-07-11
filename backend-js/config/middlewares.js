@@ -12,7 +12,7 @@ module.exports = [
       origin: [
 		'http://localhost:5173',          // Votre frontend React en développement
         'http://localhost:3000',          // Frontend Next.js en développement
-        'https://ai-recipe-frontend-3vt7.onrender.com', // Votre frontend déployé sur Render
+        'https://aifb-frontend-m.onrender.com', // Votre frontend déployé sur Render
       ],
       // Méthodes HTTP que vous autorisez
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
@@ -23,6 +23,7 @@ module.exports = [
     },
   },
   'strapi::poweredBy',
+  'strapi::logger',
   'strapi::query',
   'strapi::body',
   'strapi::session',
