@@ -1,0 +1,124 @@
+{
+  "React Component": {
+    "prefix": "rfc",
+    "body": [
+      "import React from 'react';",
+      "",
+      "interface ${1:ComponentName}Props {",
+      "  $2",
+      "}",
+      "",
+      "export default function ${1:ComponentName}({ $3 }: ${1:ComponentName}Props) {",
+      "  return (",
+      "    <div>",
+      "      $0",
+      "    </div>",
+      "  );",
+      "}"
+    ],
+    "description": "Créer un composant React fonctionnel avec TypeScript"
+  },
+  "React Hook": {
+    "prefix": "rhook",
+    "body": [
+      "import { useState, useEffect } from 'react';",
+      "",
+      "export function use${1:HookName}() {",
+      "  const [${2:state}, set${2/(.*)/${2:/capitalize}/}] = useState<${3:string}>(${4:''});",
+      "",
+      "  useEffect(() => {",
+      "    $0",
+      "  }, []);",
+      "",
+      "  return {",
+      "    ${2:state},",
+      "    set${2/(.*)/${2:/capitalize}/}",
+      "  };",
+      "}"
+    ],
+    "description": "Créer un hook React personnalisé"
+  },
+  "API Route": {
+    "prefix": "api",
+    "body": [
+      "import { NextRequest, NextResponse } from 'next/server';",
+      "",
+      "export async function GET(request: NextRequest) {",
+      "  try {",
+      "    $0",
+      "    return NextResponse.json({ success: true });",
+      "  } catch (error) {",
+      "    return NextResponse.json(",
+      "      { error: 'Erreur serveur' },",
+      "      { status: 500 }",
+      "    );",
+      "  }",
+      "}",
+      "",
+      "export async function POST(request: NextRequest) {",
+      "  try {",
+      "    const body = await request.json();",
+      "    $1",
+      "    return NextResponse.json({ success: true });",
+      "  } catch (error) {",
+      "    return NextResponse.json(",
+      "      { error: 'Erreur serveur' },",
+      "      { status: 500 }",
+      "    );",
+      "  }",
+      "}"
+    ],
+    "description": "Créer une route API Next.js"
+  },
+  "TypeScript Interface": {
+    "prefix": "tint",
+    "body": [
+      "interface ${1:InterfaceName} {",
+      "  $0",
+      "}"
+    ],
+    "description": "Créer une interface TypeScript"
+  },
+  "TypeScript Type": {
+    "prefix": "ttype",
+    "body": [
+      "type ${1:TypeName} = {",
+      "  $0",
+      "};"
+    ],
+    "description": "Créer un type TypeScript"
+  },
+  "Console Log": {
+    "prefix": "clog",
+    "body": [
+      "console.log('${1:label}:', ${2:value});"
+    ],
+    "description": "Console log avec label"
+  },
+  "Try Catch": {
+    "prefix": "tryc",
+    "body": [
+      "try {",
+      "  $1",
+      "} catch (error) {",
+      "  console.error('Erreur:', error);",
+      "  $0",
+      "}"
+    ],
+    "description": "Bloc try-catch"
+  },
+  "Async Function": {
+    "prefix": "async",
+    "body": [
+      "async function ${1:functionName}() {",
+      "  try {",
+      "    $0",
+      "  } catch (error) {",
+      "    console.error('Erreur:', error);",
+      "    throw error;",
+      "  }",
+      "}"
+    ],
+    "description": "Fonction asynchrone avec gestion d'erreur"
+  }
+}

@@ -1,0 +1,101 @@
+[
+  {
+    "key": "ctrl+shift+r",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": {
+      "text": "npm run dev\n"
+    },
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+shift+t",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": {
+      "text": "npm run test\n"
+    },
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+shift+b",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": {
+      "text": "npm run build\n"
+    },
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+shift+l",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": {
+      "text": "npm run lint\n"
+    },
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+shift+f",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": {
+      "text": "npm run format\n"
+    },
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+shift+g",
+    "command": "cursor.chat.focus",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "ctrl+shift+c",
+    "command": "cursor.chat.clear",
+    "when": "cursor.chat.focused"
+  },
+  {
+    "key": "ctrl+shift+d",
+    "command": "workbench.action.debug.start",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "ctrl+shift+s",
+    "command": "workbench.action.files.saveAll"
+  },
+  {
+    "key": "ctrl+shift+o",
+    "command": "workbench.action.quickOpen"
+  },
+  {
+    "key": "ctrl+shift+p",
+    "command": "workbench.action.showCommands"
+  },
+  {
+    "key": "ctrl+shift+e",
+    "command": "workbench.view.explorer"
+  },
+  {
+    "key": "ctrl+shift+x",
+    "command": "workbench.view.extensions"
+  },
+  {
+    "key": "ctrl+shift+m",
+    "command": "workbench.actions.view.problems"
+  },
+  {
+    "key": "ctrl+shift+u",
+    "command": "workbench.action.gotoSymbol"
+  },
+  {
+    "key": "ctrl+shift+w",
+    "command": "workbench.action.closeAllEditors"
+  },
+  {
+    "key": "ctrl+shift+n",
+    "command": "workbench.action.newWindow"
+  },
+  {
+    "key": "ctrl+shift+i",
+    "command": "workbench.action.toggleDevTools"
+  },
+  {
+    "key": "ctrl+shift+z",
+    "command": "workbench.action.terminal.toggleTerminal"
+  }
+]

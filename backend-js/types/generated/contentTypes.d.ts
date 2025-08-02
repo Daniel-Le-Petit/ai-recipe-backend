@@ -519,6 +519,41 @@ export interface ApiTestEntityTestEntity extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiWeeklyPlanWeeklyPlan extends Struct.CollectionTypeSchema {
+  collectionName: 'weekly_plans';
+  info: {
+    displayName: 'WeeklyPlan';
+    pluralName: 'weekly-plans';
+    singularName: 'weekly-plan';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::weekly-plan.weekly-plan'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    selections: Schema.Attribute.JSON;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    userId: Schema.Attribute.Integer & Schema.Attribute.Required;
+    weekEnd: Schema.Attribute.Date;
+    weeklyPlansStatus: Schema.Attribute.Enumeration<
+      ['draft ', 'active', 'completed', 'archived']
+    > &
+      Schema.Attribute.DefaultTo<'draft '>;
+    weekStart: Schema.Attribute.Date;
+  };
+}
+
 export interface PluginContentReleasesRelease
   extends Struct.CollectionTypeSchema {
   collectionName: 'strapi_releases';
@@ -1032,6 +1067,7 @@ declare module '@strapi/strapi' {
       'api::recipie-category.recipie-category': ApiRecipieCategoryRecipieCategory;
       'api::recipie.recipie': ApiRecipieRecipie;
       'api::test-entity.test-entity': ApiTestEntityTestEntity;
+      'api::weekly-plan.weekly-plan': ApiWeeklyPlanWeeklyPlan;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

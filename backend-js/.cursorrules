@@ -1,0 +1,168 @@
+# Configuration Cursor Pro - Règles avancées pour le développement
+
+## CONTEXTE DU PROJET
+Ce projet est une application de recettes culinaires avec :
+- Backend : Strapi (Node.js) avec PostgreSQL
+- Frontend : Next.js 14 avec TypeScript et Tailwind CSS
+- Base de données : PostgreSQL
+- Tests : Playwright pour les tests E2E
+
+## RÈGLES DE DÉVELOPPEMENT
+
+### 1. STANDARDS DE CODE
+- Utiliser TypeScript strict pour tous les fichiers .ts/.tsx
+- Respecter les conventions ESLint et Prettier
+- Commenter le code complexe en français
+- Utiliser des noms de variables/fonctions explicites en français
+- Préférer les fonctions composantes pour React
+- Utiliser les hooks personnalisés pour la logique réutilisable
+
+### 2. ARCHITECTURE
+- Séparer clairement la logique métier des composants UI
+- Utiliser des types TypeScript stricts et explicites
+- Implémenter la gestion d'erreurs robuste
+- Suivre le pattern Repository pour l'accès aux données
+- Utiliser des middlewares pour la validation
+
+### 3. PERFORMANCE
+- Optimiser les requêtes de base de données
+- Implémenter la mise en cache appropriée
+- Utiliser React.memo pour les composants coûteux
+- Optimiser les images et assets
+- Minimiser les re-renders inutiles
+
+### 4. SÉCURITÉ
+- Valider toutes les entrées utilisateur
+- Utiliser des variables d'environnement pour les secrets
+- Implémenter l'authentification JWT
+- Sanitizer les données avant affichage
+- Utiliser HTTPS en production
+
+### 5. TESTS
+- Écrire des tests unitaires pour la logique métier
+- Utiliser Playwright pour les tests E2E
+- Tester les cas d'erreur et edge cases
+- Maintenir une couverture de tests > 80%
+
+### 6. STYLING
+- Utiliser Tailwind CSS avec des classes utilitaires
+- Créer des composants réutilisables
+- Respecter le design system existant
+- Optimiser pour mobile-first
+- Utiliser des variables CSS pour la cohérence
+
+### 7. GESTION D'ÉTAT
+- Utiliser React Context pour l'état global
+- Préférer les hooks locaux pour l'état simple
+- Implémenter la persistance d'état si nécessaire
+- Éviter le prop drilling excessif
+
+### 8. API ET DONNÉES
+- Utiliser des types TypeScript pour les réponses API
+- Implémenter la gestion d'erreurs HTTP
+- Utiliser des intercepteurs pour les requêtes
+- Valider les schémas de données
+- Implémenter le cache et l'invalidation
+
+### 9. INTERNATIONALISATION
+- Préparer le code pour i18n
+- Utiliser des clés de traduction explicites
+- Supporter le français comme langue principale
+
+### 10. DÉPLOIEMENT
+- Utiliser des variables d'environnement
+- Optimiser les builds de production
+- Implémenter le monitoring et logging
+- Configurer les backups de base de données
+
+## RÈGLES SPÉCIFIQUES AU PROJET
+
+### Strapi (Backend)
+- Utiliser les lifecycles Strapi pour la logique métier
+- Implémenter des middlewares personnalisés
+- Utiliser les services pour la logique complexe
+- Respecter la structure des content-types
+- Utiliser les migrations pour les changements de schéma
+
+### Next.js (Frontend)
+- Utiliser les App Router de Next.js 14
+- Implémenter le SSR/SSG approprié
+- Optimiser les images avec next/image
+- Utiliser les API routes pour la logique serveur
+- Implémenter le lazy loading
+
+### Base de données
+- Utiliser des migrations pour tous les changements
+- Optimiser les requêtes avec des index
+- Implémenter la validation au niveau DB
+- Utiliser des transactions pour les opérations critiques
+- Maintenir la cohérence référentielle
+
+## CONVENTIONS DE NOMENCLATURE
+
+### Fichiers
+- Composants React : PascalCase (ex: RecipeCard.tsx)
+- Hooks personnalisés : camelCase avec préfixe 'use' (ex: useRecipes.ts)
+- Services : camelCase (ex: recipeService.ts)
+- Types : PascalCase avec suffixe approprié (ex: RecipeType, RecipeState)
+- Constantes : UPPER_SNAKE_CASE (ex: API_ENDPOINTS)
+
+### Variables et fonctions
+- Variables : camelCase (ex: recipeList, userPreferences)
+- Fonctions : camelCase avec verbe d'action (ex: fetchRecipes, handleSubmit)
+- Classes : PascalCase (ex: RecipeManager)
+- Interfaces : PascalCase avec préfixe 'I' (ex: IRecipe, IUser)
+
+## GESTION DES ERREURS
+
+### Frontend
+- Utiliser des Error Boundaries React
+- Implémenter des fallbacks UI appropriés
+- Logger les erreurs pour le debugging
+- Afficher des messages d'erreur utilisateur-friendly
+
+### Backend
+- Utiliser des codes d'erreur HTTP appropriés
+- Logger les erreurs avec contexte
+- Implémenter des middlewares d'erreur
+- Retourner des messages d'erreur structurés
+
+## OPTIMISATIONS RECOMMANDÉES
+
+### Performance
+- Implémenter la pagination pour les listes
+- Utiliser la virtualisation pour les longues listes
+- Optimiser les requêtes de base de données
+- Implémenter le cache Redis si nécessaire
+
+### UX
+- Ajouter des états de chargement
+- Implémenter des animations fluides
+- Optimiser pour l'accessibilité
+- Tester sur différents appareils
+
+### Développement
+- Utiliser des snippets de code
+- Configurer des raccourcis clavier
+- Automatiser les tâches répétitives
+- Maintenir une documentation à jour
+
+## RÈGLES POUR L'IA
+
+### Génération de code
+- Toujours inclure les types TypeScript
+- Ajouter des commentaires pour la logique complexe
+- Implémenter la gestion d'erreurs
+- Suivre les patterns établis dans le projet
+
+### Refactoring
+- Maintenir la compatibilité des APIs
+- Mettre à jour les tests correspondants
+- Documenter les changements breaking
+- Vérifier la performance après refactoring
+
+### Debugging
+- Utiliser des logs structurés
+- Implémenter des outils de debugging
+- Maintenir des tests de régression
+- Documenter les solutions aux problèmes courants 

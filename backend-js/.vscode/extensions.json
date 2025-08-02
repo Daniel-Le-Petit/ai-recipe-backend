@@ -1,0 +1,30 @@
+{
+  "recommendations": [
+    "bradlc.vscode-tailwindcss",
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "ms-vscode.vscode-typescript-next",
+    "ms-vscode.vscode-json",
+    "formulahendry.auto-rename-tag",
+    "christian-kohler.path-intellisense",
+    "ms-vscode.vscode-css-peek",
+    "ms-vscode.vscode-html-css-support",
+    "ms-vscode.vscode-js-debug",
+    "ms-vscode.vscode-js-debug-companion",
+    "ms-playwright.playwright",
+    "ms-vscode.vscode-typescript-next",
+    "ms-vscode.vscode-json",
+    "ms-vscode.vscode-css-peek",
+    "ms-vscode.vscode-html-css-support",
+    "ms-vscode.vscode-js-debug",
+    "ms-vscode.vscode-js-debug-companion",
+    "ms-playwright.playwright",
+    "ms-vscode.vscode-typescript-next",
+    "ms-vscode.vscode-json",
+    "ms-vscode.vscode-css-peek",
+    "ms-vscode.vscode-html-css-support",
+    "ms-vscode.vscode-js-debug",
+    "ms-vscode.vscode-js-debug-companion",
+    "ms-playwright.playwright"
+  ]
+}
