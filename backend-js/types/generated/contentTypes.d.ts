@@ -488,6 +488,10 @@ export interface ApiRecipieRecipie extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    weekly_plan_meals: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::weekly-plan-meal.weekly-plan-meal'
+    >;
   };
 }
 
@@ -519,6 +523,47 @@ export interface ApiTestEntityTestEntity extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiWeeklyPlanMealWeeklyPlanMeal
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'weekly_plan_meals';
+  info: {
+    displayName: 'WeeklyPlanMeal';
+    pluralName: 'weekly-plan-meals';
+    singularName: 'weekly-plan-meal';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    day: Schema.Attribute.Date;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::weekly-plan-meal.weekly-plan-meal'
+    > &
+      Schema.Attribute.Private;
+    mealType: Schema.Attribute.Enumeration<
+      ['petit-dejeuner', 'dejeuner', 'collation', 'diner']
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    recipie: Schema.Attribute.Relation<'manyToOne', 'api::recipie.recipie'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    userNotes: Schema.Attribute.String;
+    weekly_plan: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::weekly-plan.weekly-plan'
+    >;
+    weeklyPlanMealsStatus: Schema.Attribute.Enumeration<
+      ['draft', 'active', 'completed', 'archived']
+    >;
+  };
+}
+
 export interface ApiWeeklyPlanWeeklyPlan extends Struct.CollectionTypeSchema {
   collectionName: 'weekly_plans';
   info: {
@@ -546,6 +591,10 @@ export interface ApiWeeklyPlanWeeklyPlan extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     userId: Schema.Attribute.Integer & Schema.Attribute.Required;
     weekEnd: Schema.Attribute.Date;
+    weekly_plan_meals: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::weekly-plan-meal.weekly-plan-meal'
+    >;
     weeklyPlansStatus: Schema.Attribute.Enumeration<
       ['draft ', 'active', 'completed', 'archived']
     > &
@@ -1067,6 +1116,7 @@ declare module '@strapi/strapi' {
       'api::recipie-category.recipie-category': ApiRecipieCategoryRecipieCategory;
       'api::recipie.recipie': ApiRecipieRecipie;
       'api::test-entity.test-entity': ApiTestEntityTestEntity;
+      'api::weekly-plan-meal.weekly-plan-meal': ApiWeeklyPlanMealWeeklyPlanMeal;
       'api::weekly-plan.weekly-plan': ApiWeeklyPlanWeeklyPlan;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;

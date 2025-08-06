@@ -1,0 +1,51 @@
+{
+  "kind": "collectionType",
+  "collectionName": "weekly_plan_meals",
+  "info": {
+    "singularName": "weekly-plan-meal",
+    "pluralName": "weekly-plan-meals",
+    "displayName": "WeeklyPlanMeal"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "weekly_plan": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::weekly-plan.weekly-plan",
+      "inversedBy": "weekly_plan_meals"
+    },
+    "day": {
+      "type": "date"
+    },
+    "mealType": {
+      "type": "enumeration",
+      "enum": [
+        "petit-dejeuner",
+        "dejeuner",
+        "collation",
+        "diner"
+      ]
+    },
+    "weeklyPlanMealsStatus": {
+      "type": "enumeration",
+      "enum": [
+        "draft",
+        "active",
+        "completed",
+        "archived"
+      ]
+    },
+    "userNotes": {
+      "type": "string"
+    },
+    "recipie": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::recipie.recipie",
+      "inversedBy": "weekly_plan_meals"
+    }
+  }
+}

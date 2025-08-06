@@ -33,6 +33,12 @@
         "completed",
         "archived"
       ]
+    },
+    "weekly_plan_meals": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::weekly-plan-meal.weekly-plan-meal",
+      "mappedBy": "weekly_plan"
     }
   }
 }
