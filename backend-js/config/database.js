@@ -18,21 +18,28 @@ module.exports = ({ env }) => {
   }
   
   // PostgreSQL configuration (default)
-  return {
+  const connection = {
+    client: 'postgres',
     connection: {
-      client: 'postgres',
-      connection: {
-        host: env('DATABASE_HOST', 'localhost'),
-        port: env.int('DATABASE_PORT', 5432),
-        database: env('DATABASE_NAME', 'aifinesherbes_test'),
-        user: env('DATABASE_USERNAME', 'postgres'),
-        password: env('DATABASE_PASSWORD', 'AliceNinon2025!'),
-        ssl: env.bool('DATABASE_SSL', false),
-      },
-      pool: {
-        min: 0,
-        max: 10,
-      },
+      host: env('DATABASE_HOST', 'localhost'),
+      port: env.int('DATABASE_PORT', 5432),
+      database: env('DATABASE_NAME', 'aifinesherbes_test'),
+      user: env('DATABASE_USERNAME', 'postgres'),
+      password: env('DATABASE_PASSWORD', 'AliceNinon2025!'),
+      ssl: env.bool('DATABASE_SSL', false),
+    },
+    pool: {
+      min: 0,
+      max: 10,
     },
   };
+
+  // For production (Render.com), enable SSL
+  if (env('NODE_ENV') === 'production') {
+    connection.connection.ssl = {
+      rejectUnauthorized: false,
+    };
+  }
+
+  return { connection };
 };
